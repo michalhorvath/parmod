@@ -1,0 +1,208 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper, tmargin=0.7in, bmargin=1in, lmargin=1in, rmargin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[slovak]{babel}
+\usepackage{indentfirst}
+
+\usepackage{graphicx}
+\graphicspath{{./}}
+
+\title{Špecifikácia Parmod}
+\author{Michal Horváth }
+\date{9.\ marca\ 2023}
+
+\begin{document}
+
+\maketitle
+
+%===========================================================================
+%===========================================================================
+%===========================================================================
+\section{Základný popis internetovej aplikácie}
+\textbf{Parmod} je webová aplikácia určená pre zdielanie parametrických 3D modelov.
+Prepája ľudí, ktorí dokážu vytvárať parametrické dizajny 
+v open-source softvéri OpenSCAD,
+s ľudmi, ktorí tieto modely využívajú,
+pričom im umožnuje modely modifikovať
+cez webové rozhranie zmenou hodnôt predurčených parametrov.
+
+\
+
+Kľúčové pojmy:
+\begin{itemize}
+
+\item
+\textbf{Dizajn} určuje abstraktnú triedu modelov. 
+Je definovaný OpenSCAD skriptom a špecifikovaním parametrov.
+Dizajnu je možné priradiť obrázok a popis.
+Jedná sa o hlavný prvok aplikácie.
+
+\item
+\textbf{Parameter} je určený názvom, názvom premennej, typom a predvolenou hodnotou.
+Názov je zobrazený v aplikácii a popisuje daný parameter.
+Názvom premennej určuje premennú OpenSCAD skriptu, ktorú parameter modifikuje.
+Typ obmedzuje aké hodnoty môžu byť parametru priradené.
+Typ môže byť celé číslo, desatinné číslo, 
+celé číslo ohraničené intervalom, desatinné číslo ohraničené intervalom, 
+ľubovolný textový reťazec, textový reťazec zo zoznamu.
+Predvolená hodnota určuje hodnotu, ktorú parameter nadobudne
+ak parametru nebude priradená konkrétna hodnota.
+
+\item
+\textbf{Model} je vygenerovaný z konkrétne zvoleného dizajnu
+a priradením konkrétnych hodnôt parametrov, ktoré dizajn špecifikuje.
+Po vygenerovaní sa dá v aplikácii prezerať a stiahnuť vo formáte \texttt{.stl}.
+Model zostáva dostupný v aplikácii, pre zrýchlenie opakovaného generovania.
+
+\item
+\textbf{Katalóg dizajnov} je verejný zoznam všetkých dostupných dizajnov.
+Umožnuje vyhľadávanie pomovou textu alebo tagov.
+
+\item
+\textbf{Hlavný kanál} je chronologický zoznam aktivity v aplikácii
+viditelný na hlavnej stránke aplikácie.
+Aktivita predstavuje zdielanie nového dizajnu, vygenerovanie modela,
+ale aj sociálnu interakciu (lajkovanie, komentovanie, sledovanie).
+
+\end{itemize}
+
+%===========================================================================
+%===========================================================================
+%===========================================================================
+\section{Používateľské požiadavky}
+
+Aplikácia bude rozlišovať následujúce typy používateľov:
+\begin{itemize}
+    \item \textbf{Guest} ---
+        Implicitná rola pre neprihláseného používateľa.
+        Môže prezerať katalóg dostupných dizajnov, 
+        ale nemôže sťahovať vygenerované modely, 
+        nahrávať nové dizajny, komentovať.
+        Do aplikácie sa môže prihlásiť alebo zaregistrovať,
+        čím získa väčšie právomoci.
+    \item \textbf{User} ---
+        Štandartná rola pre prihláseného používateľa.
+        Umožňuje generovanie modelov zo zdielaných dizajnov 
+        zadaním konkrétnych hodnôt parametrov a ich následné sťahovanie.
+        Umožňuje sociálnu interakciu (lajkovanie, komentovanie, sledovanie) 
+        s ostatními registrovanými používateľmi.
+        Rola sa dá zvoliť pri registrácii.
+    \item \textbf{Designer} ---
+        Rola má všetky možnosti ako rola User.
+        Umožňuje navyše zverejňovať dizajny.
+        Dá sa zvoliť pri registrácii alebo rozšírením role User
+        pri zmene údajov profilu.
+    \item \textbf{Moderator} ---
+        Rola správcu obsahu aplikácie.
+        Umožnuje mazať komentáre, dizajny.
+        Môže zablokovať používateľov s rolou User a Designer.
+        Rola musí byť priradená administrátorom, nedá sa zvoliť pri registrácii.
+    \item \textbf{Admin} ---
+        Rola hlavného správcu aplikácie.
+        Rola má všetky možnosti ako rola Moderator.
+        Navyše môže zablokovať aj používateľov s rolou Moderator.
+        Môže používateľom priradiť alebo odobrať rolu Moderator.
+        Používateľ s rolou Admin existuje iba jeden.
+\end{itemize}
+
+\includegraphics[width=\linewidth]{use_case.png}
+
+
+%===========================================================================
+%===========================================================================
+%===========================================================================
+\section{Dátový model}
+
+\includegraphics[width=\linewidth]{data_model.png}
+
+\begin{itemize}
+    \item \textbf{User} ---
+        Obsahuje údaje o všetkých užívateľoch
+\end{itemize}
+
+
+%===========================================================================
+%===========================================================================
+%===========================================================================
+\section{Technologické požiadavky}
+
+\begin{itemize}
+
+\item
+Aplikácia typu SPA.
+
+\item
+Klient vytvorený v jazyku TypeScript
+s využitím frameworku React s balíčkami React Router, React Bootstrap a Axios.
+
+
+\item
+Server vytvorený v jazyku TypeScript
+v prostredí Node.js
+s využitím balíčkov Express, Mongoose a JWT.
+Server bude využívať lokálne bežiaci program OpenSCAD.
+
+\item
+Rozhlanie medzi klientom a serverom pomocou REST API.
+
+\item
+Databáza typu MongoDB.
+
+\item
+Hosting na AWS EC2.
+
+\end{itemize}
+
+
+%===========================================================================
+%===========================================================================
+%===========================================================================
+\section{Časový plán}
+
+\begin{itemize}
+    \item Týždeň 5
+    \begin{itemize}
+        \item Inicializovanie projektu --- 7h
+        \item Inicializovanie databáze --- 3h
+        \item Registrácia a login --- 6h
+        \item Renderovanie OpenSCAD na serveri --- 6h
+    \end{itemize}
+    \item Týždeň 6
+    \begin{itemize}
+        \item Pridávanie dizajnov --- 10h
+        \item Generovanie modelov --- 8h
+    \end{itemize}
+    \item Týždeň 7
+    \begin{itemize}
+        \item Nahrávanie fotografii --- 6h
+        \item Lajkovanie a komentovanie --- 5h
+        \item Hlavný kanál --- 5h
+        \item Katalóg dizajnov --- 4h
+    \end{itemize}
+    \item Týždeň 8
+    \begin{itemize}
+        \item Prezeranie 3D modelu v prehliadači --- 8h
+        \item Funkcie moderátora a administrátora --- 4h
+        \item Vyhľadávanie a filtrovanie --- 3h
+    \end{itemize}
+    \item Týždeň 9
+    \begin{itemize}
+        \item Hostovanie na AWS CP2 --- 10h
+        \item Testovanie --- 2h
+        \item Buffer pred odovzdaním beta --- 6h
+    \end{itemize}
+    \item Týždeň 10
+    \begin{itemize}
+        \item Emailové notifikácie --- 4h
+        \item Cachovanie modelov --- 8h
+    \end{itemize}
+    \item Týždeň 11
+    \begin{itemize}
+        \item Testovanie --- 2h
+        \item Buffer pred odovzdaním --- 6h
+    \end{itemize}
+
+\end{itemize}
+
+
+\end{document}
