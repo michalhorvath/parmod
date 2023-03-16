@@ -56,13 +56,25 @@ Model zostáva dostupný v aplikácii, pre zrýchlenie opakovaného generovania.
 
 \item
 \textbf{Katalóg dizajnov} je verejný zoznam všetkých dostupných dizajnov.
-Umožnuje vyhľadávanie pomovou textu alebo tagov.
+Umožnuje vyhľadávanie pomocou textu alebo tagov.
 
 \item
 \textbf{Hlavný kanál} je chronologický zoznam aktivity v aplikácii
 viditelný na hlavnej stránke aplikácie.
-Aktivita predstavuje zdielanie nového dizajnu, vygenerovanie modela,
+Aktivita predstavuje zdielanie nového dizajnu, vygenerovanie modelu,
 ale aj sociálnu interakciu (lajkovanie, komentovanie, sledovanie).
+
+\item
+\textbf{Profil používateľa} je stránka, ktorá zobrazuje 
+základné informácie o danom registrovanom používateľovi ako sú jeho meno, fotka, 
+rola, zverejnené dizajny a aktivitu na stránke.
+
+\item
+\textbf{Sledovanie používateľa} je stav, ktorý umožňuje
+registrovanému používateľovi sledovať aktivitu iného registrovaného používateľa,
+pričom sledovanie spočíva vo farebnom odlíšení aktivity sledovaného používateľa
+od aktivity ostatných používateľov.
+Sledovanie sa dá zvoliť na profile daného používateľa. 
 
 \end{itemize}
 
@@ -85,7 +97,7 @@ Aplikácia bude rozlišovať následujúce typy používateľov:
         Umožňuje generovanie modelov zo zdielaných dizajnov 
         zadaním konkrétnych hodnôt parametrov a ich následné sťahovanie.
         Umožňuje sociálnu interakciu (lajkovanie, komentovanie, sledovanie) 
-        s ostatními registrovanými používateľmi.
+        s ostatnými registrovanými používateľmi.
         Rola sa dá zvoliť pri registrácii.
     \item \textbf{Designer} ---
         Rola má všetky možnosti ako rola User.
@@ -114,11 +126,6 @@ Aplikácia bude rozlišovať následujúce typy používateľov:
 \section{Dátový model}
 
 \includegraphics[width=\linewidth]{data_model.png}
-
-\begin{itemize}
-    \item \textbf{User} ---
-        Obsahuje údaje o všetkých užívateľoch
-\end{itemize}
 
 
 %===========================================================================
