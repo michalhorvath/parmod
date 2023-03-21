@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import config from './config';
 
-const url = process.env.MONGODB_URI;
+const url = config.MONGODB_URI;
 if (!url || typeof url !== 'string'){
   throw new Error('MONGODB_URI is not set');
 }

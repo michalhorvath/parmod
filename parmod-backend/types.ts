@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Request } from 'express';
 
 export enum UserRole {
   USER = 'user',
@@ -17,3 +18,8 @@ export interface User {
 }
 
 export type NewUser = Omit<User, 'id'>;
+
+export interface AuthRequest extends Request {
+  user?: User | null;
+  token?: string | null;
+}
