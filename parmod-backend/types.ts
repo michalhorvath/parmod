@@ -46,3 +46,22 @@ export interface Design {
 export interface NewDesign extends Omit<Design, 'id' | 'parameters'> {
   parameters: NewParameter[];
 }
+
+export interface ParameterValue {
+  id: mongoose.Types.ObjectId,
+  name: string,
+  value: string,
+}
+
+export type NewParameterValue = Omit<ParameterValue, 'id'>;
+
+export interface Model {
+  id: mongoose.Types.ObjectId,
+  design: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+  parameterValues: ParameterValue[]
+}
+
+export interface NewModel extends Omit<Model, 'id' | 'parameterValues'> {
+  parameterValues: NewParameterValue[];
+}

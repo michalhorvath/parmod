@@ -1,4 +1,6 @@
-import { NewUser, UserRole, NewDesign, NewParameter, User } from '../types';
+import { NewUser, UserRole, NewDesign, NewParameter, 
+  User, NewModel, NewParameterValue } from '../types';
+import mongoose from 'mongoose';
 
 const error = new Error('Incorrect or missing data');
 error.name = 'ValidationError';
@@ -9,6 +11,17 @@ const isString = (s: unknown): s is string => {
 
 const parseString = (s: unknown): string => {
   if (!s || !isString(s)) {
+    throw error;
+  }
+  return s;
+};
+
+const isObjectId = (s: unknown): s is mongoose.Types.ObjectId => {
+  return mongoose.isValidObjectId(s);
+};
+
+const parseObjectId = (s: unknown): mongoose.Types.ObjectId => {
+  if (!s || !isObjectId(s)) {
     throw error;
   }
   return s;
@@ -93,5 +106,45 @@ export const toNewDesign = (object: unknown, user: User): NewDesign => {
     code: parseString(object.code),
     author: user.id,
     parameters: parseParameters(object.parameters)
+  };
+};
+
+const parseParameterValue = (object: unknown): NewParameterValue => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  if (
+    !('name' in object) ||
+    !('value' in object)
+  ){
+    throw error;
+  }
+  return {
+    name: parseString(object.name),
+    value: parseString(object.value)
+  };
+};
+
+const parseParameterValues = (object: unknown): NewParameterValue[] => {
+  if (!object || !Array.isArray(object)){
+    throw error;
+  }
+  return object.map(o => parseParameterValue(o));
+};
+
+export const toNewModel = (object: unknown, user: User): NewModel => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  if (
+    !('design' in object) ||
+    !('parameterValues' in object)
+  ){
+    throw error;
+  }
+  return {
+    design: parseObjectId(object.design),
+    user: user.id,
+    parameterValues: parseParameterValues(object.parameterValues)
   };
 };
