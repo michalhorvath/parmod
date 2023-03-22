@@ -6,6 +6,6 @@ const App = () => {
       Parmod
     </div>
   );
-}
+};
 
 export default App;
