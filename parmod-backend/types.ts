@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 import { Request } from 'express';
 
+export interface AuthRequest extends Request {
+  user?: User | null;
+  token?: string | null;
+}
+
 export enum UserRole {
   USER = 'user',
   DESIGNER = 'designer',
@@ -19,7 +24,25 @@ export interface User {
 
 export type NewUser = Omit<User, 'id'>;
 
-export interface AuthRequest extends Request {
-  user?: User | null;
-  token?: string | null;
+export interface Parameter {
+  id: mongoose.Types.ObjectId,
+  name: string,
+  variable: string,
+  type: string,
+  defaultValue: string,
+}
+
+export type NewParameter = Omit<Parameter, 'id'>;
+
+export interface Design {
+  id: mongoose.Types.ObjectId,
+  title: string,
+  description: string,
+  code: string,
+  author: mongoose.Types.ObjectId,
+  parameters: Parameter[]
+}
+
+export interface NewDesign extends Omit<Design, 'id' | 'parameters'> {
+  parameters: NewParameter[];
 }
