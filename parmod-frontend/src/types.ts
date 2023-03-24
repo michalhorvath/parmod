@@ -1,3 +1,7 @@
+export interface Error {
+  error: string
+}
+
 export enum UserRole {
   USER = 'user',
   DESIGNER = 'designer',
@@ -13,7 +17,9 @@ export interface User {
   email: string
 }
 
-export type UserFormValues = Omit<User, 'id'>;
+export interface UserFormValues extends Omit<User, 'id'> {
+  password: string;
+}
 
 export type LoggedUser = User | null;
 

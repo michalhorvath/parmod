@@ -1,6 +1,7 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 import { LoggedUser } from '../../types';
 
@@ -17,7 +18,7 @@ const NavBarUser = ({ user }: Props) => {
             {user.username}
           </Navbar.Text>
         </Navbar.Collapse>
-        <Nav.Link href="./logout">
+        <Nav.Link as={Link} to="./logout">
           <Button variant="light">Logout</Button>
         </Nav.Link>
       </>
@@ -30,7 +31,7 @@ const NavBarUser = ({ user }: Props) => {
                 no user logged in
           </Navbar.Text>
         </Navbar.Collapse>
-        <Nav.Link href="./login">
+        <Nav.Link as={Link} to="./login">
           <Button variant="light">Login</Button>
         </Nav.Link>
       </>
