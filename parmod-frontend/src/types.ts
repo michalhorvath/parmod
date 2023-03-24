@@ -46,7 +46,7 @@ export interface Design extends DesignPreview {
   parameters: Parameter[]
 }
 
-export interface DesignFormValues extends Omit<Design, 'id' | 'parameters'> {
+export interface DesignFormValues extends Omit<Design, 'id' | 'parameters' | 'author'> {
   parameters: ParameterFormValues[];
 }
 
