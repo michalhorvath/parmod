@@ -15,6 +15,8 @@ export interface User {
 
 export type UserFormValues = Omit<User, 'id'>;
 
+export type LoggedUser = User | null;
+
 export interface Parameter {
   id: string,
   name: string,
