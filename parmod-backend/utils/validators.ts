@@ -1,5 +1,5 @@
 import { NewUser, UserRole, NewDesign, NewParameter, 
-  User, NewModel, NewParameterValue } from '../types';
+  User, NewModel, NewParameterValue, NewComment, NewLike } from '../types';
 import mongoose from 'mongoose';
 
 const error = new Error('Incorrect or missing data');
@@ -105,7 +105,9 @@ export const toNewDesign = (object: unknown, user: User): NewDesign => {
     description: parseString(object.description),
     code: parseString(object.code),
     author: user.id,
-    parameters: parseParameters(object.parameters)
+    parameters: parseParameters(object.parameters),
+    comments: [],
+    likes: []
   };
 };
 
@@ -146,5 +148,29 @@ export const toNewModel = (object: unknown, user: User): NewModel => {
     design: parseObjectId(object.design),
     user: user.id,
     parameterValues: parseParameterValues(object.parameterValues)
+  };
+};
+
+export const toNewComment = (object: unknown, user: User): NewComment => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  if (
+    !('text' in object)
+  ){
+    throw error;
+  }
+  return {
+    text: parseString(object.text),
+    user: user.id
+  };
+};
+
+export const toNewLike = (object: unknown, user: User): NewLike => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  return {
+    user: user.id
   };
 };

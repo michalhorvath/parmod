@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-import { Design, Parameter } from '../types';
+import { Design, Parameter, Like, Comment } from '../types';
 
 const parameterSchema = new mongoose.Schema<Parameter>(
   {
@@ -24,6 +24,47 @@ const parameterSchema = new mongoose.Schema<Parameter>(
       type: String,
       minLength: 3,
       required: true
+    }
+  }, {
+    toJSON: {
+      transform: (doc, ret) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      }
+    }
+  }
+);
+
+const likeSchema = new mongoose.Schema<Like>(
+  {
+    user: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User'
+    }
+  }, {
+    toJSON: {
+      transform: (doc, ret) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      }
+    }
+  }
+);
+
+const commentSchema = new mongoose.Schema<Comment>(
+  {
+    user: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User'
+    },
+    text: {
+      type: String, 
+      minLength: 3,
+      required: true 
     }
   }, {
     toJSON: {
@@ -60,6 +101,12 @@ const designSchema = new mongoose.Schema<Design>({
   },
   parameters: [
     parameterSchema
+  ],
+  likes: [
+    likeSchema
+  ],
+  comments: [
+    commentSchema
   ]
 }, {
   toJSON: {

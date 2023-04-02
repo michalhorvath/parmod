@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { Design, DesignPreview, DesignFormValues } from '../types';
+import { Design, DesignPreview, DesignFormValues, CommentFormValues,
+  Comment, Like } from '../types';
 
 import { apiV1BaseUrl } from '../constants';
 
@@ -30,6 +31,24 @@ const create = async (object: DesignFormValues) => {
   return data;
 };
 
+const addComment = async (id: string, comment: CommentFormValues) => {
+  const { data } = await axios.post<Comment>(
+    `${apiV1BaseUrl}/designs/${id}/comments`,
+    comment,
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
+const addLike = async (id: string) => {
+  const { data } = await axios.post<Like>(
+    `${apiV1BaseUrl}/designs/${id}/likes`,
+    {},
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 export default {
-  get, create, getAll
+  get, create, getAll, addComment, addLike
 };

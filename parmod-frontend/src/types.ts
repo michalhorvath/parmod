@@ -33,6 +33,19 @@ export interface Parameter {
 
 export type ParameterFormValues = Omit<Parameter, 'id'>;
 
+export interface Like {
+  id: string,
+  user: string,
+}
+
+export interface Comment {
+  id: string,
+  user: string,
+  text: string;
+}
+
+export type CommentFormValues = Omit<Comment, 'id' | 'user'>;
+
 
 export interface DesignPreview {
   id: string,
@@ -42,11 +55,14 @@ export interface DesignPreview {
 export interface Design extends DesignPreview {
   description: string,
   code: string,
-  author: string,
-  parameters: Parameter[]
+  author: User,
+  parameters: Parameter[],
+  comments: Comment[],
+  likes: Like[]
 }
 
-export interface DesignFormValues extends Omit<Design, 'id' | 'parameters' | 'author'> {
+export interface DesignFormValues extends Omit<Design, 
+  'id' | 'parameters' | 'author' | 'comments' | 'likes'> {
   parameters: ParameterFormValues[];
 }
 

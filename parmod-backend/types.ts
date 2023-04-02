@@ -34,6 +34,21 @@ export interface Parameter {
 
 export type NewParameter = Omit<Parameter, 'id'>;
 
+export interface Like {
+  id?: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+}
+
+export type NewLike = Omit<Like, 'id'>;
+
+export interface Comment {
+  id?: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+  text: string;
+}
+
+export type NewComment = Omit<Comment, 'id'>;
+
 export interface Design {
   id: mongoose.Types.ObjectId,
   title: string,
@@ -41,6 +56,8 @@ export interface Design {
   code: string,
   author: mongoose.Types.ObjectId,
   parameters: Parameter[]
+  likes: Like[],
+  comments: Comment[]
 }
 
 export interface NewDesign extends Omit<Design, 'id' | 'parameters'> {
@@ -65,3 +82,4 @@ export interface Model {
 export interface NewModel extends Omit<Model, 'id' | 'parameterValues'> {
   parameterValues: NewParameterValue[];
 }
+
