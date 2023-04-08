@@ -84,3 +84,19 @@ export interface Model {
 export interface ModelFormValues extends Omit<Model, 'id' | 'parameterValues'> {
   parameterValues: ParameterValueFormValues[];
 }
+
+export interface FeedModel {
+  id: string,
+  design: string,
+  user: string,
+  type: 'model';
+}
+
+export interface FeedDesign {
+  id: string,
+  author: string,
+  title: string,
+  type: 'design';
+}
+
+export type Feed = FeedModel | FeedDesign;

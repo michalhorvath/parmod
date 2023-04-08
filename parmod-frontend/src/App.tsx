@@ -8,6 +8,7 @@ import LogoutPage from './components/LogoutPage';
 import RegisterPage from './components/RegisterPage';
 import AddNewDesignPage from './components/AddNewDesignPage';
 import DesignDetailsPage from './components/DesignDetailsPage';
+import FeedPage from './components/FeedPage';
 import { LoggedUser } from './types';
 import { setToken } from './services/token';
 
@@ -28,7 +29,7 @@ const App = () => {
     <div>
       <NavBar user={user}/>
       <Routes>
-        <Route path='/' element={<>home</>} />
+        <Route path='/' element={<FeedPage/>} />
         <Route path='/login' element={<LoginPage setUser={setUser}/>} />
         <Route path='/logout' element={<LogoutPage setUser={setUser}/>} />
         <Route path='/register' element={<RegisterPage setUser={setUser}/>} />
