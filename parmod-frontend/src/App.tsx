@@ -10,7 +10,7 @@ import AddNewDesignPage from './components/AddNewDesignPage';
 import DesignDetailsPage from './components/DesignDetailsPage';
 import FeedPage from './components/FeedPage';
 import { LoggedUser } from './types';
-import { setToken } from './services/token';
+import { setToken, getToken } from './services/token';
 
 const App = () => {
   const [user, setUser] = useState<LoggedUser>(null);
@@ -21,7 +21,7 @@ const App = () => {
     if (loggedUser && token) {
       const user = JSON.parse(loggedUser) as LoggedUser;
       setUser(user);
-      setToken(token);
+      setToken(token.replaceAll('"',''));
     }
   }, []);
     
@@ -35,8 +35,8 @@ const App = () => {
         <Route path='/register' element={<RegisterPage setUser={setUser}/>} />
         <Route path='/best-designs' element={<DesignsListPage/>} />
         <Route path='/recent-designs' element={<DesignsListPage/>} />
-        <Route path='/add-design' element={<AddNewDesignPage/>} />
-        <Route path='/designs/:id' element={<DesignDetailsPage/>} />
+        <Route path='/add-design' element={<AddNewDesignPage />} />
+        <Route path='/designs/:id' element={<DesignDetailsPage user={user}/>} />
       </Routes>
     </div>
   );

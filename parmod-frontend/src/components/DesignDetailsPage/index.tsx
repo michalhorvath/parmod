@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert';
-import axios from 'axios';
 
 import designService from '../../services/designs';
-import { Design } from '../../types';
+import { Design, Comment, Like, LoggedUser } from '../../types';
+import CommentSection from './CommentSection';
+import LikeButton from './LikeButton';
 
-const DesignDetailsPage = () => {
+interface Props{
+    user: LoggedUser
+}
+
+const DesignDetailsPage = ({user}: Props) => {
   const { id } = useParams();
   const designId = id;
   const [design, setDesign] = useState<Design>();
@@ -31,8 +31,35 @@ const DesignDetailsPage = () => {
     return null;
   }
 
+  const addNewComment = (newComment: Comment) => {
+    setDesign({
+      ...design,
+      comments: design.comments.concat(newComment)
+    });
+  };
 
-  console.log(design);
+  const removeComment = (commentId: string) => {
+    setDesign({
+      ...design,
+      comments: design.comments.filter(c => c.id !== commentId)
+    });
+  };
+
+  const addLike = (newLike: Like) => {
+    setDesign({
+      ...design,
+      likes: design.likes.concat(newLike)
+    });
+  };
+
+  const removeLike = (likeId: string) => {
+    setDesign({
+      ...design,
+      likes: design.likes.filter(l => l.id !== likeId)
+    });
+  };
+
+  const isLiked = user !== null && design.likes.some(l => l.user === user.id);
 
   return (
     <Container>
@@ -41,12 +68,10 @@ const DesignDetailsPage = () => {
       <div>Description: {design.description}</div>
       <div>Code: {design.code}</div>
       <div>Likes: {design.likes.length}</div>
-      <div>
-        <div>Comments:</div>
-        <ul>
-          {design.comments.map(e => (<li>{e.text}</li>))}
-        </ul>
-      </div>
+      <LikeButton design={design} addLike={addLike} 
+        user={user} removeLike={removeLike} isLiked={isLiked}/>
+      <CommentSection design={design} addNewComment={addNewComment} 
+        user={user} removeComment={removeComment}/>
     </Container>
   );
 };

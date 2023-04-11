@@ -31,10 +31,18 @@ const create = async (object: DesignFormValues) => {
   return data;
 };
 
-const addComment = async (id: string, comment: CommentFormValues) => {
+const addComment = async (designId: string, comment: CommentFormValues) => {
   const { data } = await axios.post<Comment>(
-    `${apiV1BaseUrl}/designs/${id}/comments`,
+    `${apiV1BaseUrl}/designs/${designId}/comments`,
     comment,
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
+const removeComment = async (designId: string, commentId: string) => {
+  const { data } = await axios.delete<Comment>(
+    `${apiV1BaseUrl}/designs/${designId}/comments/${commentId}`,
     { headers: { Authorization: getToken() } }
   );
   return data;
@@ -49,6 +57,14 @@ const addLike = async (id: string) => {
   return data;
 };
 
+const removeLike = async (designId: string, likeId: string) => {
+  const { data } = await axios.delete<Like>(
+    `${apiV1BaseUrl}/designs/${designId}/likes/${likeId}`,
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 export default {
-  get, create, getAll, addComment, addLike
+  get, create, getAll, addComment, removeComment, addLike, removeLike
 };

@@ -9,7 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 
 import DesignService from '../../services/designs';
-import { ParameterFormValues  } from '../../types';
+import { ParameterFormValues } from '../../types';
 
 const AddNewDesignPage = () => {
   const [title, setTitle] = useState<string>('');
