@@ -32,7 +32,8 @@ const isUserRole = (s: string): s is UserRole => {
 };
 
 const parseUserRole = (s: unknown): UserRole => {
-  if (!s || !isString(s) || !isUserRole(s)) {
+  if (!s || !isString(s) || !isUserRole(s) 
+    || s === UserRole.ADMIN || s === UserRole.MODERATOR) {
     throw error;
   }
   return s;

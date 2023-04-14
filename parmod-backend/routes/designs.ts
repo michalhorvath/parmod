@@ -4,7 +4,7 @@ const router = express.Router();
 import DesignModel from '../models/design';
 import { toNewDesign, toNewComment, toNewLike } from '../utils/validators';
 import authorizator from '../middleware/authorizator';
-import { AuthRequest } from '../types';
+import { AuthRequest, UserRole } from '../types';
 
 router.get('/', async (req, res) => {
   const designs = await DesignModel.find({}, { id: 1, title: 1 });
@@ -58,7 +58,8 @@ router.delete('/:id/comments/:commentId',
       return res.status(400).json({error: 'comment does not exist'});
     }
 
-    if ( comment.user.toString() !== req.user.id.toString()){
+    if ( comment.user.toString() !== req.user.id.toString()
+      && (req.user.role === UserRole.DESIGNER || req.user.role === UserRole.USER)){
       return res.status(401).json({ error: 'no permission to remove the comment' });
     }
 
