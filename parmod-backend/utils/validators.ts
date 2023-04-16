@@ -1,5 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+
 import { NewUser, UserRole, NewDesign, NewParameter, 
-  User, NewModel, NewParameterValue, NewComment, NewLike } from '../types';
+  User, NewModel, NewParameterValue, NewComment, 
+  NewLike, NewImage } from '../types';
 import mongoose from 'mongoose';
 
 const error = new Error('Incorrect or missing data');
@@ -174,4 +178,22 @@ export const toNewLike = (object: unknown, user: User): NewLike => {
   return {
     user: user.id
   };
+};
+
+export const toNewImage = (object: unknown, filename: string): NewImage => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  if (
+    !('name' in object)
+  ){
+    throw error;
+  }
+  const newImage: NewImage = {
+    name: parseString(object.name),
+    //@ts-ignore
+    data: fs.readFileSync(path.join(__dirname + '/../uploads/' + filename)),
+    contentType: 'image/png',
+  };
+  return newImage;
 };

@@ -83,3 +83,11 @@ export interface NewModel extends Omit<Model, 'id' | 'parameterValues'> {
   parameterValues: NewParameterValue[];
 }
 
+export interface Image{
+  _id: mongoose.Types.ObjectId,
+  name: string,
+  data: mongoose.Types.Buffer,
+  contentType: string
+}
+
+export type NewImage = Omit<Image, '_id'>;
