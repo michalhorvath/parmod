@@ -17,13 +17,13 @@ const upload = multer({ storage });
 import ImageModel from '../models/image';
 import { toNewImage } from '../utils/validators';
 
-router.post('/', upload.single('myImage'), async (req, res) => {
+router.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file){
     throw new Error('no file');
   }
-  const newImage = toNewImage(req.body, req.file.filename);
+  const newImage = toNewImage(req.file);
   const image = await ImageModel.create(newImage);
-  res.status(201).json({message: 'ok'});
+  res.status(201).json(image);
 });
 
 router.get('/:id', async (req, res) => {
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
   if (!image) {
     return res.status(400).end();
   }
-  return res.render('images',{items: image.data});
+  return res.json({image});
 });
 
 export default router;

@@ -10,6 +10,7 @@ import axios from 'axios';
 
 import UserService from '../../services/users';
 import LoginService from '../../services/login';
+import ImageService from '../../services/images';
 import { User, UserRole, LoggedUser } from '../../types';
 
 interface Props {
@@ -23,14 +24,22 @@ const RegisterPage = ({setUser}: Props) => {
   const [email, setEmail] = useState<string>(''); 
   const [role, setRole] = useState<UserRole>(UserRole.USER); 
   const [error, setError] = useState<string>();
+  const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
   const handleRegister = async (event: React.SyntheticEvent) => {
     try {
       event.preventDefault();
+      
+      let profilePhoto = null;
+      if (profilePhotoFile){
+        profilePhoto = await ImageService.upload(profilePhotoFile);
+      }
+
       const user = await UserService.create({
-        username, password, name, email, role
+        username, password, name, email, role, 
+        profilePhoto: profilePhoto ? profilePhoto.id : undefined
       });
       console.log(user);
 
@@ -42,6 +51,7 @@ const RegisterPage = ({setUser}: Props) => {
       setName('');
       setEmail('');
       setRole(UserRole.USER);
+      setProfilePhotoFile(null);
 
       navigate('/');
     } catch (e: unknown) {
@@ -69,6 +79,13 @@ const RegisterPage = ({setUser}: Props) => {
       if (newRole) {
         setRole(newRole);
       }
+    }
+  };
+
+  const handleProfilePhotoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length >= 1){
+      const file = e.target.files[0];
+      setProfilePhotoFile(file);
     }
   };
 
@@ -123,6 +140,12 @@ const RegisterPage = ({setUser}: Props) => {
                 onChange={e => onRoleChange(e)}
                 checked={role === 'designer'}
               />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Profile photo:</Form.Label>
+              <Form.Control type="file"
+                accept=".jpg,.png"  multiple={false}
+                onChange={handleProfilePhotoFileChange} />
             </Form.Group>
             <Form.Group className="mb-3">
               <Button variant="primary" type="submit">

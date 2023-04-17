@@ -8,6 +8,7 @@ import LogoutPage from './components/LogoutPage';
 import RegisterPage from './components/RegisterPage';
 import AddNewDesignPage from './components/AddNewDesignPage';
 import DesignDetailsPage from './components/DesignDetailsPage';
+import UserDetailsPage from './components/UserDetailsPage';
 import FeedPage from './components/FeedPage';
 import { LoggedUser } from './types';
 import { setToken, getToken } from './services/token';
@@ -37,6 +38,7 @@ const App = () => {
         <Route path='/recent-designs' element={<DesignsListPage/>} />
         <Route path='/add-design' element={<AddNewDesignPage />} />
         <Route path='/designs/:id' element={<DesignDetailsPage user={user}/>} />
+        <Route path='/user/:id' element={<UserDetailsPage loggedUser={user}/>} />
       </Routes>
     </div>
   );

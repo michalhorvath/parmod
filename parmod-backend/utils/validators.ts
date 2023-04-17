@@ -63,6 +63,9 @@ export const toNewUser = (object: unknown): NewUser => {
     name: parseString(object.name),
     email: parseString(object.email)
   };
+  if ('profilePhoto' in object){
+    newUser.profilePhoto = parseObjectId(object.profilePhoto);
+  }
   return newUser;
 };
 
@@ -180,20 +183,11 @@ export const toNewLike = (object: unknown, user: User): NewLike => {
   };
 };
 
-export const toNewImage = (object: unknown, filename: string): NewImage => {
-  if (!object || typeof object !== 'object'){
-    throw error;
-  }
-  if (
-    !('name' in object)
-  ){
-    throw error;
-  }
+export const toNewImage = (file: Express.Multer.File): NewImage => {
+  const imageFile = fs.readFileSync(path.join(__dirname + '/../uploads/' + file.filename)) as mongoose.Types.Buffer;
   const newImage: NewImage = {
-    name: parseString(object.name),
-    //@ts-ignore
-    data: fs.readFileSync(path.join(__dirname + '/../uploads/' + filename)),
-    contentType: 'image/png',
+    data: imageFile,
+    contentType: file.mimetype,
   };
   return newImage;
 };

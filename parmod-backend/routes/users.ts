@@ -10,14 +10,16 @@ router.get('/', async (req, res) => {
   res.json(users);
 });
 
-router.post('/', passwordHasher, async (req, res) => {
+router.post('/register', passwordHasher, async (req, res) => {
   const newUser = toNewUser(req.body);
   const savedUser = await UserModel.create(newUser);
   res.status(201).json(savedUser);
 });
 
 router.get('/:id', async (req, res) => {
-  const user = await UserModel.findById(req.params.id);
+  const user = await UserModel
+    .findById(req.params.id)
+    .populate('profilePhoto');
   if (!user) {
     return res.status(400).end();
   }

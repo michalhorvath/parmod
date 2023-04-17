@@ -13,7 +13,7 @@ const get = async (id: string) => {
 
 const create = async (object: UserFormValues) => {
   const { data } = await axios.post<User>(
-    `${apiV1BaseUrl}/users`,
+    `${apiV1BaseUrl}/users/register`,
     object
   );
   return data;

@@ -19,7 +19,8 @@ export interface User {
   passwordHash: string,
   role: UserRole,
   name: string,
-  email: string
+  email: string,
+  profilePhoto?: mongoose.Types.ObjectId
 }
 
 export type NewUser = Omit<User, 'id'>;
@@ -85,7 +86,6 @@ export interface NewModel extends Omit<Model, 'id' | 'parameterValues'> {
 
 export interface Image{
   _id: mongoose.Types.ObjectId,
-  name: string,
   data: mongoose.Types.Buffer,
   contentType: string
 }

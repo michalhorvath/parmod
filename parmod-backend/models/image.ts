@@ -4,10 +4,6 @@ import uniqueValidator from 'mongoose-unique-validator';
 import { Image } from '../types';
 
 const imageSchema = new mongoose.Schema<Image>({
-  name: {
-    type: String,
-    unique: true
-  },
   data: Buffer, 
   contentType: String
 }, {

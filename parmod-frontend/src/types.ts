@@ -14,11 +14,13 @@ export interface User {
   username: string,
   role: UserRole,
   name: string,
-  email: string
+  email: string,
+  profilePhoto?: Image
 }
 
-export interface UserFormValues extends Omit<User, 'id'> {
+export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto'> {
   password: string;
+  profilePhoto?: string
 }
 
 export type LoggedUser = User | null;
@@ -100,3 +102,11 @@ export interface FeedDesign {
 }
 
 export type Feed = FeedModel | FeedDesign;
+
+export interface Image{
+  id: string,
+  data: {data: number[]},
+  contentType: string
+}
+
+

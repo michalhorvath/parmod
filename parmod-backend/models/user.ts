@@ -28,7 +28,11 @@ const userSchema = new mongoose.Schema<User>({
     required: true,
     enum: UserRole,
     default:  UserRole.USER
-  }
+  },
+  profilePhoto: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Image'
+  },
 }, {
   toJSON: {
     transform: (doc, ret) => {
