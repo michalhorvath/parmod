@@ -1,10 +1,11 @@
 import express from 'express';
 const router = express.Router();
+import fs from 'fs';
 
 import multer from 'multer';
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads');
+    cb(null, 'temp');
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -23,6 +24,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
   }
   const newImage = toNewImage(req.file);
   const image = await ImageModel.create(newImage);
+  fs.unlinkSync('temp/' + req.file.filename);
   res.status(201).json(image);
 });
 

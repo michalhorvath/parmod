@@ -1,6 +1,8 @@
 import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+import morganBody from 'morgan-body';
+import bodyParser from 'body-parser';
 
 import db from './utils/db';
 db.connect();
@@ -13,10 +15,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-app.get('/', (_req, res) => {
-  res.send('Parmod');
-});
+app.use(bodyParser.json());
+morganBody(app);
 
 app.use('/api/v1/', apiRouter);
 

@@ -36,7 +36,12 @@ const modelSchema = new mongoose.Schema<Model>({
   },
   parameterValues: [
     parameterValueSchema
-  ]
+  ],
+  modelFile: {
+    type: mongoose.Schema.Types.ObjectId, 
+    required: true,
+    ref: 'ModelFile'
+  }
 }, {
   toJSON: {
     transform: (doc, ret) => {

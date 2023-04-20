@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { NewUser, UserRole, NewDesign, NewParameter, 
-  User, NewModel, NewParameterValue, NewComment, 
+  User, NewModel, ModelFile, NewParameterValue, NewComment, 
   NewLike, NewImage } from '../types';
 import mongoose from 'mongoose';
 
@@ -142,7 +142,8 @@ const parseParameterValues = (object: unknown): NewParameterValue[] => {
   return object.map(o => parseParameterValue(o));
 };
 
-export const toNewModel = (object: unknown, user: User): NewModel => {
+export const toNewModel = (object: unknown, user: User, 
+  modelFile: ModelFile): NewModel => {
   if (!object || typeof object !== 'object'){
     throw error;
   }
@@ -155,6 +156,7 @@ export const toNewModel = (object: unknown, user: User): NewModel => {
   return {
     design: parseObjectId(object.design),
     user: user.id,
+    modelFile: modelFile._id,
     parameterValues: parseParameterValues(object.parameterValues)
   };
 };
@@ -184,7 +186,7 @@ export const toNewLike = (object: unknown, user: User): NewLike => {
 };
 
 export const toNewImage = (file: Express.Multer.File): NewImage => {
-  const imageFile = fs.readFileSync(path.join(__dirname + '/../uploads/' + file.filename)) as mongoose.Types.Buffer;
+  const imageFile = fs.readFileSync(path.join(__dirname + '/../temp/' + file.filename)) as mongoose.Types.Buffer;
   const newImage: NewImage = {
     data: imageFile,
     contentType: file.mimetype,

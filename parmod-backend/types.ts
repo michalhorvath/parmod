@@ -77,7 +77,8 @@ export interface Model {
   id: mongoose.Types.ObjectId,
   design: mongoose.Types.ObjectId,
   user: mongoose.Types.ObjectId,
-  parameterValues: ParameterValue[]
+  parameterValues: ParameterValue[],
+  modelFile: mongoose.Types.ObjectId
 }
 
 export interface NewModel extends Omit<Model, 'id' | 'parameterValues'> {
@@ -91,3 +92,16 @@ export interface Image{
 }
 
 export type NewImage = Omit<Image, '_id'>;
+
+export enum ModelFileStatus {
+  RENDERING = 'rendering',
+  OK = 'ok',
+  FAILED = 'failed'
+}
+
+export interface ModelFile{
+  _id: mongoose.Types.ObjectId,
+  status: ModelFileStatus,
+  data: mongoose.Types.Buffer,
+  contentType: 'model/stl'
+}
