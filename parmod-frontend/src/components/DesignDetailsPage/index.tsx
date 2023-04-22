@@ -64,10 +64,18 @@ const DesignDetailsPage = ({user}: Props) => {
   return (
     <Container>
       <h2 className="m-2">Design {design.title}</h2>
-      <div>Author: {design.author.username}</div>
-      <div>Description: {design.description}</div>
-      <div>Code: {design.code}</div>
-      <div>Likes: {design.likes.length}</div>
+      <div><strong>Author:</strong> {design.author.username}</div>
+      <div>
+        <span><strong>Description:</strong><br/></span>
+        {design.description.split('\n').map((l, i) => (<span key={i}>{l}<br/></span>))}
+      </div>
+      <div>
+        <span><strong>Code:</strong><br/></span>
+        <pre>
+          {design.code}
+        </pre>
+      </div>
+      <div><strong>Likes:</strong> {design.likes.length}</div>
       <LikeButton design={design} addLike={addLike} 
         user={user} removeLike={removeLike} isLiked={isLiked}/>
       <CommentSection design={design} addNewComment={addNewComment} 
