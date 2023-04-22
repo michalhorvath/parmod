@@ -43,6 +43,25 @@ const AddNewDesignPage = () => {
     }
   };
 
+  const handleAddParemeter = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setParameters(parameters.concat({
+      name: '',
+      variable: '',
+      defaultValue: '',
+      type: 'string'
+    }));
+  };
+
+  const handleRemoveParameter = (event: React.SyntheticEvent, i: number) => {
+    event.preventDefault();
+    const parametersCopy = parameters.map(p => ({...p}))
+      .filter((p,j) => j !== i); 
+    setParameters(parametersCopy);
+  };
+
+  console.log(parameters);
+
   return (
     <Container>
       <h2 className="m-2">Add new design</h2>
@@ -69,6 +88,55 @@ const AddNewDesignPage = () => {
               <Form.Control as="textarea" rows={20} placeholder="Enter code" 
                 value={code} onChange={({ target }) => setCode(target.value)}/>
             </Form.Group>
+          </Col>
+        </Row>
+        <Form.Label>Parameters:</Form.Label>
+        {parameters.map((p, i) => (
+          <Row className="justify-content-md-left mb-3" key={i}>
+            <Col xs={4}>
+              <Form.Control placeholder="Name" 
+                value={parameters[i].name}
+                onChange={({ target}) => {
+                  const parametersCopy = parameters.map(p => ({...p})); 
+                  parametersCopy[i].name = target.value;
+                  setParameters(parametersCopy);
+                }}/>
+            </Col>
+            <Col xs={4}>
+              <Form.Control placeholder="Variable Name" 
+                value={parameters[i].variable}
+                onChange={({ target}) => {
+                  const parametersCopy = parameters.map(p => ({...p})); 
+                  parametersCopy[i].variable = target.value;
+                  setParameters(parametersCopy);
+                }}/>
+            </Col>
+            <Col>
+              <Form.Control placeholder="Default Value" 
+                value={parameters[i].defaultValue}
+                onChange={({ target}) => {
+                  const parametersCopy = parameters.map(p => ({...p})); 
+                  parametersCopy[i].defaultValue = target.value;
+                  setParameters(parametersCopy);
+                }}/>
+            </Col>
+            <Col xs={1}>
+              <Button variant="outline-danger"
+                onClick={(e) => handleRemoveParameter(e,i)}>
+                remove
+              </Button>
+            </Col>
+          </Row>
+        ))}
+        <Row className="justify-content-md-left mb-5">
+          <Col>
+            <Button variant="outline-secondary" onClick={handleAddParemeter}>
+                add
+            </Button>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col>
             <Form.Group className="mb-3">
               <Button variant="primary" type="submit">
                 Submit

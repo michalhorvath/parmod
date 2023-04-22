@@ -7,22 +7,20 @@ const parameterSchema = new mongoose.Schema<Parameter>(
   {
     name: {
       type: String,
-      minLength: 3,
+      minLength: 1,
       unique: true
     },
     variable: {
       type: String,
-      minLength: 3,
+      minLength: 1,
       required: true
     },
     type: {
       type: String,
-      minLength: 3,
       required: true
     },
     defaultValue: {
       type: String,
-      minLength: 3,
       required: true
     }
   }, {
