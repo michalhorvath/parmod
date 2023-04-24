@@ -10,7 +10,16 @@ import { AuthRequest, Design } from '../types';
 import openscad from '../utils/openscad';
 
 router.get('/', async (req, res) => {
-  const models = await ModelModel.find({});
+  if (req.query.user && req.query.design){
+    const models = await ModelModel.find({
+      user: req.query.user,
+      design: req.query.design
+    })
+      .populate('modelFile');
+    res.json(models);
+  }
+  const models = await ModelModel.find({})
+    .populate('modelFile');
   res.json(models);
 });
 
@@ -32,7 +41,8 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
 router.get('/:id', async (req, res) => {
   const model = await ModelModel.findById(req.params.id)
     .populate('design')
-    .populate('user');
+    .populate('user')
+    .populate('modelFile');
   if (!model) {
     return res.status(400).end();
   }

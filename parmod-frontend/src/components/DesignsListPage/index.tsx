@@ -40,7 +40,7 @@ const DesignsListPage = () => {
       <ListGroup>
         {filteredDesigns.map(d => (
           <ListGroup.Item key={d.id}>
-            <Link to={`/designs/${d.id}`}>{d.title}</Link>
+            <Link to={`/design/${d.id}`}>{d.title}</Link>
           </ListGroup.Item>
         ))}
       </ListGroup>

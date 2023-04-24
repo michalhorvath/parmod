@@ -60,8 +60,6 @@ const AddNewDesignPage = () => {
     setParameters(parametersCopy);
   };
 
-  console.log(parameters);
-
   return (
     <Container>
       <h2 className="m-2">Add new design</h2>

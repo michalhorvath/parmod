@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 import designService from '../../services/designs';
-import { Design, Comment, Like, LoggedUser } from '../../types';
+import modelService from '../../services/models';
+import { Design, Model, Comment, Like, LoggedUser } from '../../types';
+import ModelSection from './ModelSection';
 import CommentSection from './CommentSection';
+import GenerateNewModelModal from '../GenerateNewModelModal';
 import LikeButton from './LikeButton';
 
 interface Props{
@@ -15,6 +19,9 @@ const DesignDetailsPage = ({user}: Props) => {
   const { id } = useParams();
   const designId = id;
   const [design, setDesign] = useState<Design>();
+  const [showGenerateModel, setShowGenerateModel] = useState<boolean>(false);
+  const [models, setModels] = useState<Model[]>([]);
+  const [trigger, setTrigger] = useState<number>(0);
 
   useEffect(() => {
     const fetchDesign = async () => {
@@ -26,6 +33,17 @@ const DesignDetailsPage = ({user}: Props) => {
     };
     void fetchDesign();
   }, [designId]);
+
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (!user || !design){
+        return;
+      }
+      const models = await modelService.getAll(user.id, design.id);
+      setModels(models);
+    };
+    void fetchModels();
+  }, [design, showGenerateModel, trigger]);
 
   if (!designId || typeof designId !== 'string' || !design){
     return null;
@@ -78,8 +96,13 @@ const DesignDetailsPage = ({user}: Props) => {
       <div><strong>Likes:</strong> {design.likes.length}</div>
       <LikeButton design={design} addLike={addLike} 
         user={user} removeLike={removeLike} isLiked={isLiked}/>
+      <ModelSection models={models} 
+        setShowGenerateModel={setShowGenerateModel}
+        reloadModels={() => setTrigger(trigger+1)} />
       <CommentSection design={design} addNewComment={addNewComment} 
-        user={user} removeComment={removeComment}/>
+        user={user} removeComment={removeComment} />
+      <GenerateNewModelModal design={design} show={showGenerateModel}
+        onHide={() => setShowGenerateModel(false)}/>
     </Container>
   );
 };

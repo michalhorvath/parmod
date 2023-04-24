@@ -76,14 +76,30 @@ export interface ParameterValue {
 
 export type ParameterValueFormValues = Omit<ParameterValue, 'id'>;
 
+export enum ModelFileStatus {
+  RENDERING = 'rendering',
+  OK = 'ok',
+  FAILED = 'failed'
+}
+
 export interface Model {
   id: string,
   design: string,
   user: string,
-  parameterValues: ParameterValue[]
+  parameterValues: ParameterValue[],
+  modelFile: {
+    id: string,
+    status: ModelFileStatus,
+    data: {
+      data: number[],
+      type: 'Buffer'
+    },
+    contentType: 'model/stl'
+  }
 }
 
-export interface ModelFormValues extends Omit<Model, 'id' | 'parameterValues'> {
+export interface ModelFormValues {
+  design: string,
   parameterValues: ParameterValueFormValues[];
 }
 

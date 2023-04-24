@@ -6,7 +6,7 @@ const parameterValueSchema = new mongoose.Schema<ParameterValue>(
   {
     name: {
       type: String,
-      minLength: 3,
+      minLength: 1,
       required: true
     },
     value: {

@@ -5,9 +5,18 @@ import { apiV1BaseUrl } from '../constants';
 
 import { getToken } from './token';
 
+const getAll = async (user: string, design:string) => {
+  const { data } = await axios.get<Model[]>(
+    `${apiV1BaseUrl}/models/`,
+    { params: {user, design}}
+  );
+
+  return data;
+};
+
 const get = async (id: string) => {
   const { data } = await axios.get<Model>(
-    `${apiV1BaseUrl}/model/${id}`
+    `${apiV1BaseUrl}/models/${id}`
   );
 
   return data;
@@ -15,7 +24,7 @@ const get = async (id: string) => {
 
 const create = async (object: ModelFormValues) => {
   const { data } = await axios.post<Model>(
-    `${apiV1BaseUrl}/model`,
+    `${apiV1BaseUrl}/models`,
     object,
     { headers: { Authorization: getToken() } }
   );
@@ -23,5 +32,5 @@ const create = async (object: ModelFormValues) => {
 };
 
 export default {
-  get, create
+  get, create, getAll
 };
