@@ -25,10 +25,10 @@ const CommentBlock = ({comment, user, removeComment, designId}: Props) => {
 
   return (
     <li>
-      <Link to={`/user/${comment.user}`}>{comment.user}:</Link>&nbsp;
+      <Link to={`/user/${comment.user.id}`}>{comment.user.username}:</Link>&nbsp;
       {comment.text}&nbsp;
       {user && (user.role === UserRole.MODERATOR || user.role === UserRole.ADMIN
-            || user.id === comment.user) ? 
+            || user.id === comment.user.id) ? 
         <Button variant="outline-danger" size="sm" onClick={handleRemove}>remove</Button> :
         null}
     </li>

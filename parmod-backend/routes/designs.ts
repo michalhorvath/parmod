@@ -21,7 +21,17 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const design = await DesignModel.findById(req.params.id).populate('author');
+  const design = await DesignModel.findById(req.params.id)
+    .populate('author')
+    .populate({
+      path: 'comments.user',
+      select: {id:1, username:1}
+    })
+    .populate({
+      path: 'likes.user',
+      select: {id:1, username:1}
+    })
+    .exec();
   if (!design) {
     return res.status(400).end();
   }

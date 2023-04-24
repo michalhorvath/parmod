@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 
@@ -78,12 +78,15 @@ const DesignDetailsPage = ({user}: Props) => {
     });
   };
 
-  const isLiked = user !== null && design.likes.some(l => l.user === user.id);
+  const isLiked = user !== null && design.likes.some(l => l.user.id === user.id);
 
   return (
     <Container>
       <h2 className="m-2">Design {design.title}</h2>
-      <div><strong>Author:</strong> {design.author.username}</div>
+      <div>
+        <strong>Author:</strong>&nbsp;
+        <Link to={`/user/${design.author.id}`}>{design.author.username}:</Link>
+      </div>
       <div><strong>Published:</strong> {toDate(design.publishedDate)}</div>
       <div>
         <span><strong>Description:</strong><br/></span>

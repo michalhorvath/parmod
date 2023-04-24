@@ -14,9 +14,7 @@ const NavBarUser = ({ user }: Props) => {
     return (
       <>
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            {user.username}
-          </Navbar.Text>
+          <Nav.Link as={Link} to={`/user/${user.id}`}>{user.username}</Nav.Link>
         </Navbar.Collapse>
         <Nav.Link as={Link} to="./logout">
           <Button variant="light">Logout</Button>

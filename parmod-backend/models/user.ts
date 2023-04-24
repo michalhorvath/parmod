@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema<User>({
     transform: (doc, ret) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       ret.id = ret._id;
-      delete ret._id;
+      //delete ret._id;
       delete ret.__v;
       delete ret.passwordHash;
     }

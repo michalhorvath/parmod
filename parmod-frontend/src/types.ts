@@ -38,13 +38,19 @@ export type ParameterFormValues = Omit<Parameter, 'id'>;
 
 export interface Like {
   id: string,
-  user: string,
+  user: {
+    id: string,
+    username: string
+  },
   likedDate: string
 }
 
 export interface Comment {
   id: string,
-  user: string,
+  user: {
+    id: string,
+    username: string
+  },
   text: string,
   commentedDate: string
 }
@@ -110,31 +116,55 @@ export interface ModelFormValues {
 
 export interface FeedModel {
   id: string,
-  design: string,
-  user: string,
-  type: 'model';
+  design: {
+    id: string,
+    title: string
+  },
+  user: {
+    id: string,
+    username: string
+  },
+  date: string,
+  type: 'model'
 }
 
 export interface FeedDesign {
   id: string,
-  author: string,
+  author: {
+    id: string,
+    username: string
+  },
   title: string,
-  type: 'design';
+  date: string,
+  type: 'design'
 }
 
 export interface FeedComment {
   id: string,
-  type: 'comment';
+  design: {
+    id: string,
+    title: string
+  },
+  user: {
+    id: string,
+    username: string
+  },
+  date: string,
+  type: 'comment'
 }
 
 export interface FeedLike {
   id: string,
-  type: 'like';
-}
-
-export interface FeedModel {
-  id: string,
-  type: 'model';
+  design: {
+    id: string,
+    title: string
+  },
+  user: {
+    id: string,
+    username: string
+  },
+  date: string,
+  type: 'like'
 }
 
 export type Feed = FeedModel | FeedDesign | FeedComment | FeedLike | FeedModel;

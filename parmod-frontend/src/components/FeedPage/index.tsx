@@ -10,20 +10,30 @@ const FeedItem = (props: {item: Feed}) => {
   if (props.item.type === 'design') {
     return (
       <ListGroup.Item key={props.item.id}>
-        <Link to={`/user/${props.item.author}`}>{props.item.author}</Link>&nbsp;
+        <Link to={`/user/${props.item.author.id}`}>
+          {props.item.author.username}
+        </Link>&nbsp;
         published new design&nbsp;
-        <Link to={`/design/${props.item.id}`}>{props.item.title}</Link>
+        <Link to={`/design/${props.item.id}`}>
+          {props.item.title}
+        </Link>
       </ListGroup.Item>
     );
   }
   if (props.item.type === 'model') {
     return (
       <ListGroup.Item key={props.item.id}>
-        <Link to={`/user/${props.item.user}`}>{props.item.user}</Link>&nbsp;
+        <Link to={`/user/${props.item.user.id}`}>
+          {props.item.user.username}
+        </Link>&nbsp;
         generated new mode&nbsp;
-        <Link to={`/design/${props.item.id}`}>{props.item.id}</Link>&nbsp;
+        <Link to={`/design/${props.item.id}`}>
+          {props.item.id}
+        </Link>&nbsp;
         from design&nbsp;
-        <Link to={`/design/${props.item.design}`}>{props.item.design}</Link>&nbsp;
+        <Link to={`/design/${props.item.design.id}`}>
+          {props.item.design.title}
+        </Link>&nbsp;
       </ListGroup.Item>
     );
   }
