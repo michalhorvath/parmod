@@ -10,3 +10,7 @@ const toBase64 = (ar: number[]) => {
 export const toImageSrc = (image: Image): string => {
   return `data:${image.contentType};base64,${toBase64(image.data.data)}`;
 };
+
+export const toDate = (date: string): string => {
+  return new Date(date).toLocaleDateString();
+};

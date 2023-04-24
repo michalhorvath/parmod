@@ -10,6 +10,7 @@ import ModelSection from './ModelSection';
 import CommentSection from './CommentSection';
 import GenerateNewModelModal from '../GenerateNewModelModal';
 import LikeButton from './LikeButton';
+import { toDate } from '../../utils';
 
 interface Props{
     user: LoggedUser
@@ -83,6 +84,7 @@ const DesignDetailsPage = ({user}: Props) => {
     <Container>
       <h2 className="m-2">Design {design.title}</h2>
       <div><strong>Author:</strong> {design.author.username}</div>
+      <div><strong>Published:</strong> {toDate(design.publishedDate)}</div>
       <div>
         <span><strong>Description:</strong><br/></span>
         {design.description.split('\n').map((l, i) => (<span key={i}>{l}<br/></span>))}

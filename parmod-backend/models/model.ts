@@ -41,6 +41,10 @@ const modelSchema = new mongoose.Schema<Model>({
     type: mongoose.Schema.Types.ObjectId, 
     required: true,
     ref: 'ModelFile'
+  },
+  generatedDate: {
+    type: Date,
+    required: true
   }
 }, {
   toJSON: {

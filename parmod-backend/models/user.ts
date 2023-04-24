@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema<User>({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Image'
   },
+  registeredDate: {
+    type: Date,
+    required: true
+  }
 }, {
   toJSON: {
     transform: (doc, ret) => {

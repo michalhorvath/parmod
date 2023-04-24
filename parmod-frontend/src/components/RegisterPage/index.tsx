@@ -41,7 +41,6 @@ const RegisterPage = ({setUser}: Props) => {
         username, password, name, email, role, 
         profilePhoto: profilePhoto ? profilePhoto.id : undefined
       });
-      console.log(user);
 
       const loggeduser = await LoginService.login(username, password);
       setUser(loggeduser);

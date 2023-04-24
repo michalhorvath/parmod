@@ -15,10 +15,11 @@ export interface User {
   role: UserRole,
   name: string,
   email: string,
-  profilePhoto?: Image
+  profilePhoto?: Image,
+  registeredDate: string
 }
 
-export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto'> {
+export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto' | 'registeredDate'> {
   password: string;
   profilePhoto?: string
 }
@@ -38,20 +39,23 @@ export type ParameterFormValues = Omit<Parameter, 'id'>;
 export interface Like {
   id: string,
   user: string,
+  likedDate: string
 }
 
 export interface Comment {
   id: string,
   user: string,
-  text: string;
+  text: string,
+  commentedDate: string
 }
 
-export type CommentFormValues = Omit<Comment, 'id' | 'user'>;
+export type CommentFormValues = Omit<Comment, 'id' | 'user' | 'commentedDate'>;
 
 
 export interface DesignPreview {
   id: string,
-  title: string
+  title: string,
+  publishedDate: string
 }
 
 export interface Design extends DesignPreview {
@@ -64,7 +68,7 @@ export interface Design extends DesignPreview {
 }
 
 export interface DesignFormValues extends Omit<Design, 
-  'id' | 'parameters' | 'author' | 'comments' | 'likes'> {
+  'id' | 'parameters' | 'author' | 'comments' | 'likes' | 'publishedDate'> {
   parameters: ParameterFormValues[];
 }
 
@@ -95,7 +99,8 @@ export interface Model {
       type: 'Buffer'
     },
     contentType: 'model/stl'
-  }
+  },
+  generatedDate: string
 }
 
 export interface ModelFormValues {
@@ -117,7 +122,22 @@ export interface FeedDesign {
   type: 'design';
 }
 
-export type Feed = FeedModel | FeedDesign;
+export interface FeedComment {
+  id: string,
+  type: 'comment';
+}
+
+export interface FeedLike {
+  id: string,
+  type: 'like';
+}
+
+export interface FeedModel {
+  id: string,
+  type: 'model';
+}
+
+export type Feed = FeedModel | FeedDesign | FeedComment | FeedLike | FeedModel;
 
 export interface Image{
   id: string,

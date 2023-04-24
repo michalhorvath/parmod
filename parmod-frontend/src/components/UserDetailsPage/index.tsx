@@ -7,7 +7,7 @@ import userService from '../../services/users';
 import { User, LoggedUser } from '../../types';
 import { toImageSrc } from '../../utils';
 import ProfilePhoto from './ProfilePhoto';
-
+import { toDate } from '../../utils';
 
 interface Props{
     loggedUser: LoggedUser
@@ -37,8 +37,9 @@ const UserDetailsPage = ({loggedUser}: Props) => {
     <Container>
       <h2 className="m-2">User {user.username}</h2>
       <ProfilePhoto user={user}/>
-      <div>Email: {user.email}</div>
-      <div>Role: {user.role}</div>
+      <div><strong>Registered:</strong> {toDate(user.registeredDate)}</div>
+      <div><strong>Email:</strong> {user.email}</div>
+      <div><strong>Role:</strong> {user.role}</div>
     </Container>
   );
 };

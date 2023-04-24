@@ -20,7 +20,8 @@ export interface User {
   role: UserRole,
   name: string,
   email: string,
-  profilePhoto?: mongoose.Types.ObjectId
+  profilePhoto?: mongoose.Types.ObjectId,
+  registeredDate: Date
 }
 
 export type NewUser = Omit<User, 'id'>;
@@ -38,6 +39,7 @@ export type NewParameter = Omit<Parameter, 'id'>;
 export interface Like {
   _id?: mongoose.Types.ObjectId,
   user: mongoose.Types.ObjectId,
+  likedDate: Date
 }
 
 export type NewLike = Omit<Like, '_id'>;
@@ -45,7 +47,8 @@ export type NewLike = Omit<Like, '_id'>;
 export interface Comment {
   _id?: mongoose.Types.ObjectId,
   user: mongoose.Types.ObjectId,
-  text: string;
+  text: string,
+  commentedDate: Date
 }
 
 export type NewComment = Omit<Comment, '_id'>;
@@ -58,7 +61,8 @@ export interface Design {
   author: mongoose.Types.ObjectId,
   parameters: Parameter[]
   likes: Like[],
-  comments: Comment[]
+  comments: Comment[],
+  publishedDate: Date
 }
 
 export interface NewDesign extends Omit<Design, '_id' | 'parameters'> {
@@ -78,7 +82,8 @@ export interface Model {
   design: mongoose.Types.ObjectId,
   user: mongoose.Types.ObjectId,
   parameterValues: ParameterValue[],
-  modelFile: mongoose.Types.ObjectId
+  modelFile: mongoose.Types.ObjectId,
+  generatedDate: Date
 }
 
 export interface NewModel extends Omit<Model, 'id' | 'parameterValues'> {

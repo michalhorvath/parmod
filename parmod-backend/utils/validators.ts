@@ -61,7 +61,8 @@ export const toNewUser = (object: unknown): NewUser => {
     passwordHash: parseString(object.passwordHash),
     role: parseUserRole(object.role),
     name: parseString(object.name),
-    email: parseString(object.email)
+    email: parseString(object.email),
+    registeredDate: new Date()
   };
   if ('profilePhoto' in object){
     newUser.profilePhoto = parseObjectId(object.profilePhoto);
@@ -115,7 +116,8 @@ export const toNewDesign = (object: unknown, user: User): NewDesign => {
     author: user.id,
     parameters: parseParameters(object.parameters),
     comments: [],
-    likes: []
+    likes: [],
+    publishedDate: new Date()
   };
 };
 
@@ -157,7 +159,8 @@ export const toNewModel = (object: unknown, user: User,
     design: parseObjectId(object.design),
     user: user.id,
     modelFile: modelFile._id,
-    parameterValues: parseParameterValues(object.parameterValues)
+    parameterValues: parseParameterValues(object.parameterValues),
+    generatedDate: new Date()
   };
 };
 
@@ -172,7 +175,8 @@ export const toNewComment = (object: unknown, user: User): NewComment => {
   }
   return {
     text: parseString(object.text),
-    user: user.id
+    user: user.id,
+    commentedDate: new Date()
   };
 };
 
@@ -181,7 +185,8 @@ export const toNewLike = (object: unknown, user: User): NewLike => {
     throw error;
   }
   return {
-    user: user.id
+    user: user.id,
+    likedDate: new Date()
   };
 };
 

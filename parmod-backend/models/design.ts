@@ -40,6 +40,10 @@ const likeSchema = new mongoose.Schema<Like>(
     user: { 
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'User'
+    },
+    likedDate: {
+      type: Date,
+      required: true
     }
   }, {
     toJSON: {
@@ -63,6 +67,10 @@ const commentSchema = new mongoose.Schema<Comment>(
       type: String, 
       minLength: 3,
       required: true 
+    },
+    commentedDate: {
+      type: Date,
+      required: true
     }
   }, {
     toJSON: {
@@ -96,6 +104,10 @@ const designSchema = new mongoose.Schema<Design>({
   author: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User'
+  },
+  publishedDate: {
+    type: Date,
+    required: true
   },
   parameters: [
     parameterSchema
