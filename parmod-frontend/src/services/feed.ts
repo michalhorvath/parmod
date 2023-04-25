@@ -11,6 +11,15 @@ const getAll = async () => {
   return data;
 };
 
+const getUser = async (user: string, type: string) => {
+  const { data } = await axios.get<Feed[]>(
+    `${apiV1BaseUrl}/feed`,
+    { params: {user, type}}
+  );
+
+  return data;
+};
+
 export default {
-  getAll
+  getAll, getUser
 };
