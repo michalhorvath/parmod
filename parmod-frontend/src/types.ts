@@ -70,12 +70,14 @@ export interface Design extends DesignPreview {
   author: User,
   parameters: Parameter[],
   comments: Comment[],
-  likes: Like[]
+  likes: Like[],
+  photo?: Image
 }
 
 export interface DesignFormValues extends Omit<Design, 
-  'id' | 'parameters' | 'author' | 'comments' | 'likes' | 'publishedDate'> {
-  parameters: ParameterFormValues[];
+  'id' | 'parameters' | 'author' | 'comments' | 'likes' | 'publishedDate' | 'photo'> {
+  parameters: ParameterFormValues[],
+  photo?: string
 }
 
 export interface ParameterValue {

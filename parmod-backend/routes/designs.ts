@@ -23,6 +23,7 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
 router.get('/:id', async (req, res) => {
   const design = await DesignModel.findById(req.params.id)
     .populate('author')
+    .populate('photo')
     .populate({
       path: 'comments.user',
       select: {id:1, username:1}

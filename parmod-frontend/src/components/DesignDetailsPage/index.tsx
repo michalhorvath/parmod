@@ -10,6 +10,7 @@ import ModelSection from './ModelSection';
 import CommentSection from './CommentSection';
 import GenerateNewModelModal from '../GenerateNewModelModal';
 import LikeButton from './LikeButton';
+import Photo from './Photo';
 import { toDate } from '../../utils';
 
 interface Props{
@@ -95,6 +96,7 @@ const DesignDetailsPage = ({user}: Props) => {
   return (
     <Container>
       <h2 className="m-2">Design {design.title}</h2>
+      <Photo design={design}/>
       <div>
         <strong>Author:</strong>&nbsp;
         <Link to={`/user/${design.author.id}`}>{design.author.username}</Link>

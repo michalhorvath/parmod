@@ -9,6 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 
 import DesignService from '../../services/designs';
+import ImageService from '../../services/images';
 import { ParameterFormValues } from '../../types';
 
 const AddNewDesignPage = () => {
@@ -17,14 +18,22 @@ const AddNewDesignPage = () => {
   const [code, setCode] = useState<string>('');
   const [parameters, setParameters] = useState<ParameterFormValues[]>([]);
   const [error, setError] = useState<string>();
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     try {
       event.preventDefault();
+
+      let photo = null;
+      if (photoFile){
+        photo = await ImageService.upload(photoFile);
+      }
+
       const design = await DesignService.create({
-        title, description, code, parameters
+        title, description, code, parameters,
+        photo: photo ? photo.id : undefined
       });
       navigate(`/design/${design.id}`);
     } catch (e: unknown) {
@@ -60,6 +69,13 @@ const AddNewDesignPage = () => {
     setParameters(parametersCopy);
   };
 
+  const handlePhotoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length >= 1){
+      const file = e.target.files[0];
+      setPhotoFile(file);
+    }
+  };
+
   return (
     <Container>
       <h2 className="m-2">Add new design</h2>
@@ -75,6 +91,12 @@ const AddNewDesignPage = () => {
               <Form.Label>Title:</Form.Label>
               <Form.Control type="text" placeholder="Enter title" 
                 value={title} onChange={({ target }) => setTitle(target.value)}/>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Photo:</Form.Label>
+              <Form.Control type="file"
+                accept=".jpg,.png"  multiple={false}
+                onChange={handlePhotoFileChange} />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Description:</Form.Label>

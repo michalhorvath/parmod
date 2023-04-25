@@ -117,7 +117,11 @@ const designSchema = new mongoose.Schema<Design>({
   ],
   comments: [
     commentSchema
-  ]
+  ],
+  photo: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Image'
+  }
 }, {
   toJSON: {
     transform: (doc, ret) => {

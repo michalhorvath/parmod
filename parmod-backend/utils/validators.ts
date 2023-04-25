@@ -109,7 +109,7 @@ export const toNewDesign = (object: unknown, user: User): NewDesign => {
   ){
     throw error;
   }
-  return {
+  const newDesign: NewDesign = {
     title: parseString(object.title),
     description: parseString(object.description),
     code: parseString(object.code),
@@ -119,6 +119,10 @@ export const toNewDesign = (object: unknown, user: User): NewDesign => {
     likes: [],
     publishedDate: new Date()
   };
+  if ('photo' in object){
+    newDesign.photo = parseObjectId(object.photo);
+  }
+  return newDesign;
 };
 
 const parseParameterValue = (object: unknown): NewParameterValue => {

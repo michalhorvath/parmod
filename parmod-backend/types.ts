@@ -62,7 +62,8 @@ export interface Design {
   parameters: Parameter[]
   likes: Like[],
   comments: Comment[],
-  publishedDate: Date
+  publishedDate: Date,
+  photo?: mongoose.Types.ObjectId
 }
 
 export interface NewDesign extends Omit<Design, '_id' | 'parameters'> {
