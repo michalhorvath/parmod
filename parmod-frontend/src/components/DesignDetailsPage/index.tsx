@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 
 import designService from '../../services/designs';
 import modelService from '../../services/models';

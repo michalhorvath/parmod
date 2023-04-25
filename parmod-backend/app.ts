@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 morganBody(app);
 
+app.use(express.static('buildclient'));
 app.use('/api/v1/', apiRouter);
 
 app.use(unknownEndpoint);

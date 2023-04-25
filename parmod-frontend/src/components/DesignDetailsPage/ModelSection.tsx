@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 
-import { Model, ModelFileStatus } from '../../types';
+import { Model } from '../../types';
 import ModelBlock from './ModelBlock';
 
 interface Props{

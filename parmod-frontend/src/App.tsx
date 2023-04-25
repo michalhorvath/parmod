@@ -11,7 +11,7 @@ import DesignDetailsPage from './components/DesignDetailsPage';
 import UserDetailsPage from './components/UserDetailsPage';
 import FeedPage from './components/FeedPage';
 import { LoggedUser } from './types';
-import { setToken, getToken } from './services/token';
+import { setToken } from './services/token';
 
 const App = () => {
   const [user, setUser] = useState<LoggedUser>(null);
@@ -38,7 +38,7 @@ const App = () => {
         <Route path='/recent-designs' element={<DesignsListPage type="recent"/>} />
         <Route path='/add-design' element={<AddNewDesignPage />} />
         <Route path='/design/:id' element={<DesignDetailsPage user={user}/>} />
-        <Route path='/user/:id' element={<UserDetailsPage loggedUser={user}/>} />
+        <Route path='/user/:id' element={<UserDetailsPage/>} />
       </Routes>
     </div>
   );

@@ -8,17 +8,13 @@ import { Link } from 'react-router-dom';
 
 import userService from '../../services/users';
 import feedService from '../../services/feed';
-import { User, LoggedUser, Design } from '../../types';
+import { User, Design } from '../../types';
 import ProfilePhoto from './ProfilePhoto';
 import { toDate } from '../../utils';
 import { toImageSrc } from '../../utils';
 import Blank from '../../images/blank.png';
 
-interface Props{
-    loggedUser: LoggedUser
-}
-
-const UserDetailsPage = ({loggedUser}: Props) => {
+const UserDetailsPage = () => {
   const { id } = useParams();
   const userId = id;
   const [user, setUser] = useState<User>();

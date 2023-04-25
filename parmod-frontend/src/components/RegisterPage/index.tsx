@@ -11,7 +11,7 @@ import axios from 'axios';
 import UserService from '../../services/users';
 import LoginService from '../../services/login';
 import ImageService from '../../services/images';
-import { User, UserRole, LoggedUser } from '../../types';
+import { UserRole, LoggedUser } from '../../types';
 
 interface Props {
     setUser: React.Dispatch<React.SetStateAction<LoggedUser>>
@@ -37,7 +37,7 @@ const RegisterPage = ({setUser}: Props) => {
         profilePhoto = await ImageService.upload(profilePhotoFile);
       }
 
-      const user = await UserService.create({
+      await UserService.create({
         username, password, name, email, role, 
         profilePhoto: profilePhoto ? profilePhoto.id : undefined
       });

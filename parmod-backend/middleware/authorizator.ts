@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import UserModel from '../models/user';
-import { User, AuthRequest } from '../types';
+import { AuthRequest } from '../types';
 import config from '../utils/config';
 
 const authorizator = async (req: AuthRequest, res: Response, 

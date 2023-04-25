@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -29,7 +28,7 @@ const GenerateNewModelModal = ({design, show, onHide}: Props) => {
   const handleSubmit = async (event: React.SyntheticEvent) => {
     try {
       event.preventDefault();
-      const model = await ModelService.create({
+      await ModelService.create({
         design: design.id,
         parameterValues
       });
