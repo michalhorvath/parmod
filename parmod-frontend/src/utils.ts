@@ -12,5 +12,9 @@ export const toImageSrc = (image: Image): string => {
 };
 
 export const toDate = (date: string): string => {
-  return new Date(date).toLocaleDateString();
+  return new Date(date).toLocaleDateString('en-GB');
+};
+
+export const toTime = (date: string): string => {
+  return new Date(date).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 };

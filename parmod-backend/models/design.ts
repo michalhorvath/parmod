@@ -8,7 +8,7 @@ const parameterSchema = new mongoose.Schema<Parameter>(
     name: {
       type: String,
       minLength: 1,
-      unique: true
+      required: true
     },
     variable: {
       type: String,

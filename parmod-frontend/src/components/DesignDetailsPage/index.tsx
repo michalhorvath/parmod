@@ -53,7 +53,13 @@ const DesignDetailsPage = ({user}: Props) => {
   const addNewComment = (newComment: Comment) => {
     setDesign({
       ...design,
-      comments: design.comments.concat(newComment)
+      comments: design.comments.concat({
+        ...newComment,
+        user: {
+          id: user ? user.id : '',
+          username: user ? user.username : ''
+        }
+      })
     });
   };
 
@@ -67,7 +73,13 @@ const DesignDetailsPage = ({user}: Props) => {
   const addLike = (newLike: Like) => {
     setDesign({
       ...design,
-      likes: design.likes.concat(newLike)
+      likes: design.likes.concat({
+        ...newLike,
+        user: {
+          id: user ? user.id : '',
+          username: user ? user.username : ''
+        }
+      })
     });
   };
 
@@ -85,7 +97,7 @@ const DesignDetailsPage = ({user}: Props) => {
       <h2 className="m-2">Design {design.title}</h2>
       <div>
         <strong>Author:</strong>&nbsp;
-        <Link to={`/user/${design.author.id}`}>{design.author.username}:</Link>
+        <Link to={`/user/${design.author.id}`}>{design.author.username}</Link>
       </div>
       <div><strong>Published:</strong> {toDate(design.publishedDate)}</div>
       <div>
