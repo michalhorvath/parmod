@@ -34,8 +34,8 @@ const App = () => {
         <Route path='/login' element={<LoginPage setUser={setUser}/>} />
         <Route path='/logout' element={<LogoutPage setUser={setUser}/>} />
         <Route path='/register' element={<RegisterPage setUser={setUser}/>} />
-        <Route path='/best-designs' element={<DesignsListPage/>} />
-        <Route path='/recent-designs' element={<DesignsListPage/>} />
+        <Route path='/best-designs' element={<DesignsListPage type="best"/>} />
+        <Route path='/recent-designs' element={<DesignsListPage type="recent"/>} />
         <Route path='/add-design' element={<AddNewDesignPage />} />
         <Route path='/design/:id' element={<DesignDetailsPage user={user}/>} />
         <Route path='/user/:id' element={<UserDetailsPage loggedUser={user}/>} />

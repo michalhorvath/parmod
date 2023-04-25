@@ -61,17 +61,17 @@ export type CommentFormValues = Omit<Comment, 'id' | 'user' | 'commentedDate'>;
 export interface DesignPreview {
   id: string,
   title: string,
-  publishedDate: string
+  publishedDate: string,
+  comments: Comment[],
+  likes: Like[],
+  photo?: Image
 }
 
 export interface Design extends DesignPreview {
   description: string,
   code: string,
   author: User,
-  parameters: Parameter[],
-  comments: Comment[],
-  likes: Like[],
-  photo?: Image
+  parameters: Parameter[]
 }
 
 export interface DesignFormValues extends Omit<Design, 

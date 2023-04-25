@@ -7,7 +7,10 @@ import authorizator from '../middleware/authorizator';
 import { AuthRequest, UserRole } from '../types';
 
 router.get('/', async (req, res) => {
-  const designs = await DesignModel.find({}, { id: 1, title: 1 });
+  const designs = await DesignModel
+    .find({}, { id: 1, title: 1, photo: 1, publishedDate: 1, 
+      likes: 1, comments: 1 }).
+    populate('photo');
   res.json(designs);
 });
 

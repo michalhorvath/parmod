@@ -12,7 +12,7 @@ const Photo = ({design}: Props) => {
   if (design.photo) {
     return (
       <Image
-        rounded width='200' height='200'
+        rounded width='600' height='400'
         src={toImageSrc(design.photo)}
       />
     );

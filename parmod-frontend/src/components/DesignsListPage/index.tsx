@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 import { DesignPreview } from '../../types';
 import designService from '../../services/designs';
+import { toImageSrc } from '../../utils';
+import Blank from '../../images/blank.png';
 
-const DesignsListPage = () => {
+interface Props{
+  type: 'best' | 'recent'
+}
+
+const DesignsListPage = ({ type }: Props) => {
   const [filter, setFilter] = useState<string>('');
   const [designs, setDesigns] = useState<DesignPreview[]>([]);
 
@@ -21,13 +27,35 @@ const DesignsListPage = () => {
     void fetchDesignList();
   }, []);
 
-  const filteredDesigns = filter === '' ?
+  let filteredDesigns = filter === '' ?
     designs :
     designs.filter(d => d.title.includes(filter));
 
+  if (type == 'recent'){
+    filteredDesigns = filteredDesigns.sort((x, y) => {
+      if (x.publishedDate < y.publishedDate) {
+        return 1;
+      }
+      if (x.publishedDate > y.publishedDate) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+  if (type == 'best'){
+    filteredDesigns = filteredDesigns.sort((x, y) => {
+      if (x.likes.length < y.likes.length) {
+        return 1;
+      }
+      if (x.likes.length > y.likes.length) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+
   return (
     <Container>
-      
       <Form>
         <Form.Group className="mb-3 mt-3" as={Row}>
           <Form.Label column sm={1}>Search:</Form.Label>
@@ -37,13 +65,33 @@ const DesignsListPage = () => {
           </Col>
         </Form.Group>
       </Form>
-      <ListGroup>
+      <Row xs={1} md={4} className="g-4">
         {filteredDesigns.map(d => (
-          <ListGroup.Item key={d.id}>
-            <Link to={`/design/${d.id}`}>{d.title}</Link>
-          </ListGroup.Item>
+          <Col key={d.id}>
+            <Card style={{ width: '300px' }}>
+              <Link to={`/design/${d.id}`}>
+                {d.photo ? 
+                  <Card.Img variant="top" 
+                    height="200px" width="300px"
+                    src={toImageSrc(d.photo)} /> : 
+                  <Card.Img variant="top"
+                    height="200px" width="300px"
+                    // eslint-disable-next-line
+                    src={Blank}/>}
+              </Link>
+              <Card.Body>
+                <Card.Title>
+                  <Link to={`/design/${d.id}`}>{d.title}</Link>
+                </Card.Title>
+                <Card.Text>
+                  <span>Likes: {d.likes.length}</span><br/>
+                  <span>Comments: {d.comments.length}</span>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </ListGroup>
+      </Row>
     </Container>
   );
 };
