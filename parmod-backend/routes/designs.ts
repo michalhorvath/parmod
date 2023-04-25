@@ -2,9 +2,10 @@ import express from 'express';
 const router = express.Router();
 
 import DesignModel from '../models/design';
+import FeedModel from '../models/feed';
 import { toNewDesign, toNewComment, toNewLike } from '../utils/validators';
 import authorizator from '../middleware/authorizator';
-import { AuthRequest, UserRole } from '../types';
+import { AuthRequest, UserRole, FeedType } from '../types';
 
 router.get('/', async (req, res) => {
   const designs = await DesignModel
@@ -20,6 +21,12 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
   }
   const newDesign = toNewDesign(req.body, req.user);
   const savedDesign = await DesignModel.create(newDesign);
+  await FeedModel.create({
+    user: savedDesign.author,
+    design: savedDesign._id,
+    date: new Date(),
+    type: FeedType.DESIGN
+  });
   return res.status(201).json(savedDesign);
 });
 
@@ -54,7 +61,15 @@ router.post('/:id/comments', authorizator, async (req: AuthRequest, res) => {
   if (!updatedDesign) {
     return res.status(400).end();
   }
-  return res.json(updatedDesign.comments[updatedDesign.comments.length - 1]);
+  const savedComment = updatedDesign.comments[updatedDesign.comments.length - 1];
+  await FeedModel.create({
+    user: req.user,
+    design: updatedDesign._id,
+    ref: savedComment._id,
+    date: new Date(),
+    type: FeedType.COMMENT
+  });
+  return res.json(savedComment);
 });
 
 router.delete('/:id/comments/:commentId', 
@@ -85,6 +100,11 @@ router.delete('/:id/comments/:commentId',
     if (!updatedDesign) {
       return res.status(400).end();
     }
+
+    await FeedModel
+      .find({ref: req.params.commentId})
+      .remove();
+
     return res.json(updatedDesign);
   });
 
@@ -104,7 +124,17 @@ router.post('/:id/likes', authorizator, async (req: AuthRequest, res) => {
   if (!updatedDesign) {
     return res.status(400).end();
   }
-  return res.json(updatedDesign.likes[updatedDesign.likes.length - 1]);
+  const savedLike = updatedDesign.likes[updatedDesign.likes.length - 1];
+
+  await FeedModel.create({
+    user: req.user,
+    design: updatedDesign._id,
+    ref: savedLike._id,
+    date: new Date(),
+    type: FeedType.LIKE
+  });
+  
+  return res.json(savedLike);
 });
 
 router.delete('/:id/likes/:likeId', authorizator, async (req: AuthRequest, res) => {
@@ -134,6 +164,11 @@ router.delete('/:id/likes/:likeId', authorizator, async (req: AuthRequest, res) 
   if (!updatedDesign) {
     return res.status(400).end();
   }
+
+  await FeedModel
+    .find({ref: req.params.likeId})
+    .remove();
+
   return res.json(updatedDesign);
 });
 

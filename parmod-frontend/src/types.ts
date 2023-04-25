@@ -132,11 +132,14 @@ export interface FeedModel {
 
 export interface FeedDesign {
   id: string,
-  author: {
+  design: {
+    id: string,
+    title: string
+  },
+  user: {
     id: string,
     username: string
   },
-  title: string,
   date: string,
   type: 'design'
 }

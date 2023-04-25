@@ -4,9 +4,10 @@ const router = express.Router();
 import ModelModel from '../models/model';
 import DesignModel from '../models/design';
 import ModelFileModel from '../models/modelFile';
+import FeedModel from '../models/feed';
 import { toNewModel } from '../utils/validators';
 import authorizator from '../middleware/authorizator';
-import { AuthRequest, Design } from '../types';
+import { AuthRequest, Design, FeedType } from '../types';
 import openscad from '../utils/openscad';
 
 router.get('/', async (req, res) => {
@@ -35,6 +36,12 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
     throw new Error('design not found');
   }
   void openscad.render(savedModelFile,savedModel, design);
+  await FeedModel.create({
+    user: savedModel.user,
+    design: design._id,
+    date: new Date(),
+    type: FeedType.MODEL
+  });
   return res.status(201).json(savedModel);
 });
 

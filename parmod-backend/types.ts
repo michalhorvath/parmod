@@ -111,3 +111,48 @@ export interface ModelFile{
   data: mongoose.Types.Buffer,
   contentType: 'model/stl'
 }
+
+export enum FeedType {
+  MODEL = 'model',
+  DESIGN = 'design',
+  COMMENT = 'comment',
+  LIKE = 'like'
+}
+
+export interface FeedModel {
+  _id: mongoose.Types.ObjectId,
+  design: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+  ref: mongoose.Types.ObjectId,
+  date: Date,
+  type: FeedType.MODEL
+}
+
+export interface FeedDesign {
+  _id: mongoose.Types.ObjectId,
+  design: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+  ref: mongoose.Types.ObjectId,
+  date: Date,
+  type: FeedType.DESIGN
+}
+
+export interface FeedComment {
+  _id: mongoose.Types.ObjectId,
+  design: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+  ref: mongoose.Types.ObjectId,
+  date: Date,
+  type: FeedType.COMMENT
+}
+
+export interface FeedLike {
+  _id: mongoose.Types.ObjectId,
+  design: mongoose.Types.ObjectId,
+  user: mongoose.Types.ObjectId,
+  ref: mongoose.Types.ObjectId,
+  date: Date,
+  type: FeedType.LIKE
+}
+
+export type Feed = FeedModel | FeedDesign | FeedComment | FeedLike | FeedModel;
