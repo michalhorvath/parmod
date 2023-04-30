@@ -32,6 +32,7 @@
     "@types/morgan": "^1.9.4",
     "@types/multer": "^1.4.7",
     "@types/node": "^18.15.10",
+    "@types/nodemailer": "^6.4.7",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -43,6 +44,7 @@
     "mongoose-unique-validator": "^3.1.0",
     "morgan": "^1.10.0",
     "morgan-body": "^2.6.8",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1"
   }
 }

@@ -14,7 +14,7 @@ const FeedItem = (props: {item: Feed}) => {
           {props.item.user.username}
         </Link>&nbsp;
         published new design&nbsp;
-        <Link to={`/design/${props.item.id}`}>
+        <Link to={`/design/${props.item.design.id}`}>
           {props.item.design.title}
         </Link>
       </ListGroup.Item>

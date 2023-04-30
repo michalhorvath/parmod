@@ -3,6 +3,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import morganBody from 'morgan-body';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 import db from './utils/db';
 db.connect();
@@ -18,8 +19,11 @@ app.use(express.json());
 app.use(bodyParser.json());
 morganBody(app);
 
-app.use(express.static('buildclient'));
 app.use('/api/v1/', apiRouter);
+app.use(express.static('buildclient'));
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname+'/buildclient/index.html'));
+});
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
