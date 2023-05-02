@@ -75,6 +75,8 @@ export interface NewDesign extends Omit<Design, '_id' | 'parameters'> {
   parameters: NewParameter[];
 }
 
+export type UpdateDesign = Omit<NewDesign, 'comments' | 'likes' | 'author' | 'publishedDate'>;
+
 export interface ParameterValue {
   id: mongoose.Types.ObjectId,
   name: string,

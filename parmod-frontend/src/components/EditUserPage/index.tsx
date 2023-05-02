@@ -37,7 +37,7 @@ const EditUserPage = ({ loggedUser, setLoggedUser }: Props) => {
     }
   } , [loggedUser]);  
 
-  const handleRegister = async (event: React.SyntheticEvent) => {
+  const handleEdit = async (event: React.SyntheticEvent) => {
     try {
       event.preventDefault();
 
@@ -103,7 +103,7 @@ const EditUserPage = ({ loggedUser, setLoggedUser }: Props) => {
   return (
     <Container>
       <h2 className="m-2">Edit your profile</h2>
-      <Form onSubmit={handleRegister}>
+      <Form onSubmit={handleEdit}>
         <Row className="justify-content-md-center">
           <Col xs="auto">
             {error ? (

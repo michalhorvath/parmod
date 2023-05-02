@@ -10,6 +10,7 @@ import AddNewDesignPage from './components/AddNewDesignPage';
 import DesignDetailsPage from './components/DesignDetailsPage';
 import UserDetailsPage from './components/UserDetailsPage';
 import EditUserPage from './components/EditUserPage';
+import EditDesignPage from './components/EditDesignPage';
 import FeedPage from './components/FeedPage';
 import { LoggedUser } from './types';
 import { setToken } from './services/token';
@@ -38,7 +39,8 @@ const App = () => {
         <Route path='/best-designs' element={<DesignsListPage type="best"/>} />
         <Route path='/recent-designs' element={<DesignsListPage type="recent"/>} />
         <Route path='/add-design' element={<AddNewDesignPage />} />
-        <Route path='/design/:id' element={<DesignDetailsPage user={user}/>} />
+        <Route path='/design/:id' element={<DesignDetailsPage loggedUser={user}/>} />
+        <Route path='/edit-design/:id' element={<EditDesignPage/>} />
         <Route path='/user/:id' element={<UserDetailsPage loggedUser={user}/>} />
         <Route path='/edit-user/:id' element={<EditUserPage loggedUser={user} setLoggedUser={setUser}/>} />
       </Routes>

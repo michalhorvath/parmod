@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 import designService from '../../services/designs';
 import modelService from '../../services/models';
@@ -13,16 +14,18 @@ import Photo from './Photo';
 import { toDate } from '../../utils';
 
 interface Props{
-    user: LoggedUser
+    loggedUser: LoggedUser
 }
 
-const DesignDetailsPage = ({user}: Props) => {
+const DesignDetailsPage = ({loggedUser}: Props) => {
   const { id } = useParams();
   const designId = id;
   const [design, setDesign] = useState<Design>();
   const [showGenerateModel, setShowGenerateModel] = useState<boolean>(false);
   const [models, setModels] = useState<Model[]>([]);
   const [trigger, setTrigger] = useState<number>(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDesign = async () => {
@@ -37,10 +40,10 @@ const DesignDetailsPage = ({user}: Props) => {
 
   useEffect(() => {
     const fetchModels = async () => {
-      if (!user || !design){
+      if (!loggedUser || !design){
         return;
       }
-      const models = await modelService.getAll(user.id, design.id);
+      const models = await modelService.getAll(loggedUser.id, design.id);
       setModels(models);
     };
     void fetchModels();
@@ -56,16 +59,15 @@ const DesignDetailsPage = ({user}: Props) => {
       comments: design.comments.concat({
         ...newComment,
         user: {
-          id: user ? user.id : '',
-          username: user ? user.username : ''
+          id: loggedUser ? loggedUser.id : '',
+          username: loggedUser ? loggedUser.username : ''
         }
       })
     });
   };
 
   const removeComment = (commentId: string) => {
-    setDesign({
-      ...design,
+    setDesign({ ...design,
       comments: design.comments.filter(c => c.id !== commentId)
     });
   };
@@ -76,8 +78,8 @@ const DesignDetailsPage = ({user}: Props) => {
       likes: design.likes.concat({
         ...newLike,
         user: {
-          id: user ? user.id : '',
-          username: user ? user.username : ''
+          id: loggedUser ? loggedUser.id : '',
+          username: loggedUser ? loggedUser.username : ''
         }
       })
     });
@@ -90,11 +92,21 @@ const DesignDetailsPage = ({user}: Props) => {
     });
   };
 
-  const isLiked = user !== null && design.likes.some(l => l.user.id === user.id);
+  const handleEditDesignClick = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    navigate(`/edit-design/${design.id}`);
+  };
+
+  const isLiked = loggedUser !== null && design.likes.some(l => l.user.id === loggedUser.id);
 
   return (
     <Container>
       <h2 className="m-2">Design {design.title}</h2>
+      <div className="mb-2">
+        { loggedUser !== null && loggedUser.id === design.author.id ? 
+          <Button onClick={handleEditDesignClick}>Edit design</Button> :
+          null }
+      </div>
       <Photo design={design}/>
       <div>
         <strong>Author:</strong>&nbsp;
@@ -113,12 +125,12 @@ const DesignDetailsPage = ({user}: Props) => {
       </div>
       <div><strong>Likes:</strong> {design.likes.length}</div>
       <LikeButton design={design} addLike={addLike} 
-        user={user} removeLike={removeLike} isLiked={isLiked}/>
+        user={loggedUser} removeLike={removeLike} isLiked={isLiked}/>
       <ModelSection models={models} 
         setShowGenerateModel={setShowGenerateModel}
         reloadModels={() => setTrigger(trigger+1)} />
       <CommentSection design={design} addNewComment={addNewComment} 
-        user={user} removeComment={removeComment} />
+        user={loggedUser} removeComment={removeComment} />
       <GenerateNewModelModal design={design} show={showGenerateModel}
         onHide={() => setShowGenerateModel(false)}/>
     </Container>

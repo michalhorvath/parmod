@@ -17,11 +17,11 @@ router.get('/', async (req, res) => {
       design: req.query.design
     })
       .populate('modelFile');
-    res.json(models);
+    return res.json(models);
   }
   const models = await ModelModel.find({})
     .populate('modelFile');
-  res.json(models);
+  return res.json(models);
 });
 
 router.post('/', authorizator, async (req: AuthRequest, res) => {

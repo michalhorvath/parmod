@@ -3,7 +3,8 @@ const router = express.Router();
 
 import DesignModel from '../models/design';
 import FeedModel from '../models/feed';
-import { toNewDesign, toNewComment, toNewLike } from '../utils/validators';
+import { toNewDesign, toUpdateDesign, 
+  toNewComment, toNewLike } from '../utils/validators';
 import authorizator from '../middleware/authorizator';
 import { AuthRequest, UserRole, FeedType } from '../types';
 
@@ -27,6 +28,23 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
     date: new Date(),
     type: FeedType.DESIGN
   });
+  return res.status(201).json(savedDesign);
+});
+
+router.put('/:id', authorizator, async (req: AuthRequest, res) => {
+  const design = await DesignModel.findById(req.params.id);
+  if (!req.user || !design || req.user.id.toString() !== design.author.toString()){
+    if (req.user && design){
+      console.log(req.user.id.toString());
+      console.log(design.author.toString());
+    }
+    return res.status(401).end();
+  }
+  const updateDesign = toUpdateDesign(req.body);
+  const savedDesign = await DesignModel.findByIdAndUpdate(
+    req.params.id, 
+    updateDesign, 
+    { new: true, runValudators: true });
   return res.status(201).json(savedDesign);
 });
 
