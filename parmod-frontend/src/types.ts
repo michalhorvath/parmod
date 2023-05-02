@@ -24,6 +24,11 @@ export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto' | 'regi
   profilePhoto?: string
 }
 
+export interface UserEditFormValues extends Omit<UserFormValues, 'password' | 'role'>{
+  role?: UserRole,
+  password?: string;
+}
+
 export type LoggedUser = User | null;
 
 export interface Parameter {

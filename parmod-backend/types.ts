@@ -26,6 +26,11 @@ export interface User {
 
 export type NewUser = Omit<User, 'id'>;
 
+export interface UpdateUser extends Omit<User, 'id' | 'passwordHash' | 'registeredDate' | 'role'>{
+  role?: UserRole,
+  passwordHash?: string
+};
+
 export interface Parameter {
   id: mongoose.Types.ObjectId,
   name: string,

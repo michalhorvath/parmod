@@ -3,7 +3,7 @@ import path from 'path';
 
 import { NewUser, UserRole, NewDesign, NewParameter, 
   User, NewModel, ModelFile, NewParameterValue, NewComment, 
-  NewLike, NewImage } from '../types';
+  NewLike, NewImage, UpdateUser } from '../types';
 import mongoose from 'mongoose';
 
 const error = new Error('Incorrect or missing data');
@@ -68,6 +68,34 @@ export const toNewUser = (object: unknown): NewUser => {
     newUser.profilePhoto = parseObjectId(object.profilePhoto);
   }
   return newUser;
+};
+
+export const toUpdateUser = (object: unknown): UpdateUser => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  if (
+    !('username' in object) ||
+    !('name' in object) ||
+    !('email' in object)
+  ){
+    throw error;
+  }
+  const updateUser: UpdateUser = {
+    username: parseString(object.username),
+    name: parseString(object.name),
+    email: parseString(object.email)
+  };
+  if ('role' in object){
+    updateUser.role = parseUserRole(object.role);
+  }
+  if ('passwordHash' in object){
+    updateUser.passwordHash = parseString(object.passwordHash);
+  }
+  if ('profilePhoto' in object){
+    updateUser.profilePhoto = parseObjectId(object.profilePhoto);
+  }
+  return updateUser;
 };
 
 const parseParameter = (object: unknown): NewParameter => {

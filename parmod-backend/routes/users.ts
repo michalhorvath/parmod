@@ -2,8 +2,10 @@ import express from 'express';
 const router = express.Router();
 
 import UserModel from '../models/user';
-import { toNewUser } from '../utils/validators';
+import { toNewUser, toUpdateUser } from '../utils/validators';
 import passwordHasher from '../middleware/passwordHasher';
+import authorizator from '../middleware/authorizator';
+import { AuthRequest } from '../types';
 
 router.get('/', async (req, res) => {
   const users = await UserModel.find({});
@@ -25,5 +27,16 @@ router.get('/:id', async (req, res) => {
   }
   return res.json(user);
 });
+
+router.put('/:id', authorizator, passwordHasher, 
+  async (req: AuthRequest, res) => {
+    const updateUser = toUpdateUser(req.body);
+    const user = await UserModel.findByIdAndUpdate(
+      req.params.id, 
+      updateUser, 
+      { new: true, runValudators: true });
+
+    res.status(201).json(user);
+  });
 
 export default router;

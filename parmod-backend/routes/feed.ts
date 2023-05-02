@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
           path: 'photo'
         }
       });
-    res.json(feed);
+    return res.json(feed);
   }
   const feed = await FeedModel.find({})
     .sort({date: -1})
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
       path: 'design',
       select: {id:1, title:1}
     });
-  res.json(feed);
+  return res.json(feed);
 });
 
 

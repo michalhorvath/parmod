@@ -4,22 +4,29 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { Link, useNavigate } from 'react-router-dom';
 
 import userService from '../../services/users';
 import feedService from '../../services/feed';
-import { User, Design } from '../../types';
+import { User, Design, LoggedUser } from '../../types';
 import ProfilePhoto from './ProfilePhoto';
 import { toDate } from '../../utils';
 import { toImageSrc } from '../../utils';
 import Blank from '../../images/blank.png';
 
-const UserDetailsPage = () => {
+interface Props{
+    loggedUser: LoggedUser
+}
+
+const UserDetailsPage = ( { loggedUser } : Props ) => {
   const { id } = useParams();
   const userId = id;
   const [user, setUser] = useState<User>();
   const [publishedDesigns, setPublishedDesigns] = useState<Design[]>([]);
   const [likedDesigns, setLikedDesigns] = useState<Design[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -59,12 +66,23 @@ const UserDetailsPage = () => {
   if (!userId || typeof userId !== 'string' || !user){
     return null;
   }
-  console.log(publishedDesigns);
-  console.log(likedDesigns);
+
+  const handleEditButtonClick = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    if (!userId){
+      return;
+    }
+    navigate(`/edit-user/${userId}`);
+  };
 
   return (
     <Container>
       <h2 className="m-2">User {user.username}</h2>
+      <div className="mb-2" >
+        { loggedUser !== null && loggedUser.id === userId ? 
+          <Button onClick={handleEditButtonClick}>Edit profile</Button> :
+          null }
+      </div>
       <ProfilePhoto user={user}/>
       <div><strong>Registered:</strong> {toDate(user.registeredDate)}</div>
       <div><strong>Email:</strong> {user.email}</div>

@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User, UserFormValues } from '../types';
+import { User, UserFormValues, UserEditFormValues } from '../types';
 
 import { apiV1BaseUrl } from '../constants';
+
+import { getToken } from './token';
 
 const get = async (id: string) => {
   const { data } = await axios.get<User>(
@@ -19,6 +21,15 @@ const create = async (object: UserFormValues) => {
   return data;
 };
 
+const update = async (id: string, object: UserEditFormValues) => {
+  const { data } = await axios.put<User>(
+    `${apiV1BaseUrl}/users/${id}`,
+    object,
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 export default {
-  get, create
+  get, create, update
 };
