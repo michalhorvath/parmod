@@ -11,16 +11,10 @@ import { Model, ModelFileStatus } from '../../types';
 import { toDate, toTime } from '../../utils';
 
 interface Props{
-    model: Model,
-    reloadModels: () => void
+    model: Model
 }
 
-const ModelBlock = ({ model, reloadModels }: Props) => {
-  if (model.modelFile.status === ModelFileStatus.RENDERING) {
-    setTimeout(() => {
-      reloadModels();
-    }, 10000);
-  }
+const ModelBlock = ({ model }: Props) => {
 
   const download = () => {
     const buffer = Buffer.from(model.modelFile.data.data);
