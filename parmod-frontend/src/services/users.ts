@@ -30,6 +30,24 @@ const update = async (id: string, object: UserEditFormValues) => {
   return data;
 };
 
+const follow = async (id: string) => {
+  const { data } = await axios.post<User>(
+    `${apiV1BaseUrl}/users/${id}/follow`,
+    {},
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
+const unfollow = async (id: string) => {
+  const { data } = await axios.post<User>(
+    `${apiV1BaseUrl}/users/${id}/unfollow`,
+    {},
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 export default {
-  get, create, update
+  get, create, update, follow, unfollow
 };

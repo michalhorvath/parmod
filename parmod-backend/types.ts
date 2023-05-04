@@ -21,12 +21,13 @@ export interface User {
   name: string,
   email: string,
   profilePhoto?: mongoose.Types.ObjectId,
-  registeredDate: Date
+  registeredDate: Date,
+  following: mongoose.Types.ObjectId[];
 }
 
 export type NewUser = Omit<User, 'id'>;
 
-export interface UpdateUser extends Omit<User, 'id' | 'passwordHash' | 'registeredDate' | 'role'>{
+export interface UpdateUser extends Omit<User, 'id' | 'passwordHash' | 'registeredDate' | 'role' | 'following'>{
   role?: UserRole,
   passwordHash?: string
 };

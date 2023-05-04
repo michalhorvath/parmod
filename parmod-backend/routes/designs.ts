@@ -34,10 +34,6 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
 router.put('/:id', authorizator, async (req: AuthRequest, res) => {
   const design = await DesignModel.findById(req.params.id);
   if (!req.user || !design || req.user.id.toString() !== design.author.toString()){
-    if (req.user && design){
-      console.log(req.user.id.toString());
-      console.log(design.author.toString());
-    }
     return res.status(401).end();
   }
   const updateDesign = toUpdateDesign(req.body);

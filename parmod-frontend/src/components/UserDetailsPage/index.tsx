@@ -14,12 +14,14 @@ import ProfilePhoto from './ProfilePhoto';
 import { toDate } from '../../utils';
 import { toImageSrc } from '../../utils';
 import Blank from '../../images/blank.png';
+import FollowButton from './FollowButton';
 
 interface Props{
-    loggedUser: LoggedUser
+    loggedUser: LoggedUser,
+    setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser>>
 }
 
-const UserDetailsPage = ( { loggedUser } : Props ) => {
+const UserDetailsPage = ( { loggedUser, setLoggedUser } : Props ) => {
   const { id } = useParams();
   const userId = id;
   const [user, setUser] = useState<User>();
@@ -75,6 +77,26 @@ const UserDetailsPage = ( { loggedUser } : Props ) => {
     navigate(`/edit-user/${userId}`);
   };
 
+  const addFollow = (followId: string) => {
+    if (!userId || !loggedUser){
+      return;
+    }
+    setLoggedUser({
+      ...loggedUser,
+      following: loggedUser.following.concat(followId)
+    });
+  };
+
+  const removeFollow = (unfollowId: string) => {
+    if (!userId || !loggedUser){
+      return;
+    }
+    setLoggedUser({
+      ...loggedUser,
+      following: loggedUser.following.filter(u => u !== unfollowId)
+    });
+  };
+
   return (
     <Container>
       <h2 className="m-2">User {user.username}</h2>
@@ -83,7 +105,16 @@ const UserDetailsPage = ( { loggedUser } : Props ) => {
           <Button onClick={handleEditButtonClick}>Edit profile</Button> :
           null }
       </div>
-      <ProfilePhoto user={user}/>
+      <div className="mb-2" >
+        { loggedUser !== null && loggedUser.id !== userId ? 
+          <FollowButton user={user} loggedUser={loggedUser}
+            isFollowing={loggedUser.following.some(u => u === user.id)}
+            addFollow={addFollow} removeFollow={removeFollow}/> :
+          null }
+      </div>
+      <div className="m-2" >
+        <ProfilePhoto user={user}/>
+      </div>
       <div><strong>Registered:</strong> {toDate(user.registeredDate)}</div>
       <div><strong>Email:</strong> {user.email}</div>
       <div><strong>Role:</strong> {user.role}</div>

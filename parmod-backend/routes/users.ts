@@ -39,4 +39,44 @@ router.put('/:id', authorizator, passwordHasher,
     res.status(201).json(user);
   });
 
+router.post('/:id/follow', authorizator, passwordHasher, 
+  async (req: AuthRequest, res) => {
+    const userToFollow = await UserModel.findById(req.params.id);
+    if (!userToFollow || !req.user) {
+      return res.status(400).end();
+    }
+    if (req.user.following.find(u => (u.toString() === userToFollow._id.toString()))){
+      return res.status(400).json({error: 'user is already following the user'});
+    }
+
+    const following = req.user.following;
+    following.push(userToFollow._id);
+    const user = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      {following}, 
+      { new: true, runValudators: true });
+
+    return res.status(201).json(user);
+  });
+
+router.post('/:id/unfollow', authorizator, passwordHasher, 
+  async (req: AuthRequest, res) => {
+    const userToUnfollow = await UserModel.findById(req.params.id);
+    if (!userToUnfollow || !req.user) {
+      return res.status(400).end();
+    }
+    if (!req.user.following.find(u => (u.toString() === userToUnfollow._id.toString()))){
+      return res.status(400).json({error: 'user is not following the user'});
+    }
+
+    const following = req.user.following
+      .filter(u => u._id.toString() !== userToUnfollow._id.toString());
+    const user = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      {following}, 
+      { new: true, runValudators: true });
+
+    return res.status(201).json(user);
+  });
+
 export default router;

@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema<User>({
   registeredDate: {
     type: Date,
     required: true
-  }
+  },
+  following: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User'
+  }]
 }, {
   toJSON: {
     transform: (doc, ret) => {

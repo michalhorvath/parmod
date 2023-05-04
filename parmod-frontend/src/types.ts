@@ -16,10 +16,11 @@ export interface User {
   name: string,
   email: string,
   profilePhoto?: Image,
-  registeredDate: string
+  registeredDate: string,
+  following: string[]
 }
 
-export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto' | 'registeredDate'> {
+export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto' | 'registeredDate' | 'following'> {
   password: string;
   profilePhoto?: string
 }

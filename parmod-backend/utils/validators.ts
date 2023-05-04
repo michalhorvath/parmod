@@ -62,7 +62,8 @@ export const toNewUser = (object: unknown): NewUser => {
     role: parseUserRole(object.role),
     name: parseString(object.name),
     email: parseString(object.email),
-    registeredDate: new Date()
+    registeredDate: new Date(),
+    following: []
   };
   if ('profilePhoto' in object){
     newUser.profilePhoto = parseObjectId(object.profilePhoto);

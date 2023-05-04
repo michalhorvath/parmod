@@ -32,7 +32,7 @@ const App = () => {
     <div>
       <NavBar user={user}/>
       <Routes>
-        <Route path='/' element={<FeedPage/>} />
+        <Route path='/' element={<FeedPage loggedUser={user}/>} />
         <Route path='/login' element={<LoginPage setUser={setUser}/>} />
         <Route path='/logout' element={<LogoutPage setUser={setUser}/>} />
         <Route path='/register' element={<RegisterPage setUser={setUser}/>} />
@@ -41,7 +41,7 @@ const App = () => {
         <Route path='/add-design' element={<AddNewDesignPage />} />
         <Route path='/design/:id' element={<DesignDetailsPage loggedUser={user}/>} />
         <Route path='/edit-design/:id' element={<EditDesignPage/>} />
-        <Route path='/user/:id' element={<UserDetailsPage loggedUser={user}/>} />
+        <Route path='/user/:id' element={<UserDetailsPage loggedUser={user} setLoggedUser={setUser}/>} />
         <Route path='/edit-user/:id' element={<EditUserPage loggedUser={user} setLoggedUser={setUser}/>} />
       </Routes>
     </div>

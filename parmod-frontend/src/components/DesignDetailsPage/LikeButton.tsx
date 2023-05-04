@@ -44,12 +44,12 @@ const LikeButton = ({design, addLike, removeLike, user, isLiked}: Props) => {
 
   if (!isLiked){
     return (
-      <Button variant="outline-primary" size="sm" 
+      <Button variant="primary" size="sm" 
         onClick={handleLike}>like</Button>
     );
   }
   return (
-    <Button variant="primary" size="sm" 
+    <Button variant="outline-primary" size="sm" 
       onClick={handleUnlike}>unlike</Button>
   );
 };
