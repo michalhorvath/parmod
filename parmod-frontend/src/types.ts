@@ -20,6 +20,11 @@ export interface User {
   following: string[]
 }
 
+export interface UserShort {
+  id: string,
+  username: string
+}
+
 export interface UserFormValues extends Omit<User, 'id' | 'profilePhoto' | 'registeredDate' | 'following'> {
   password: string;
   profilePhoto?: string
@@ -44,19 +49,13 @@ export type ParameterFormValues = Omit<Parameter, 'id'>;
 
 export interface Like {
   id: string,
-  user: {
-    id: string,
-    username: string
-  },
+  user: UserShort | null,
   likedDate: string
 }
 
 export interface Comment {
   id: string,
-  user: {
-    id: string,
-    username: string
-  },
+  user: UserShort | null,
   text: string,
   commentedDate: string
 }
@@ -73,10 +72,15 @@ export interface DesignPreview {
   photo?: Image
 }
 
+export interface DesignShort {
+  id: string,
+  title: string
+}
+
 export interface Design extends DesignPreview {
   description: string,
   code: string,
-  author: User,
+  author: User | null,
   parameters: Parameter[]
 }
 
@@ -131,7 +135,7 @@ export interface FeedModel {
   user: {
     id: string,
     username: string
-  },
+  } | null,
   date: string,
   type: 'model'
 }
@@ -145,7 +149,7 @@ export interface FeedDesign {
   user: {
     id: string,
     username: string
-  },
+  } | null,
   date: string,
   type: 'design'
 }
@@ -159,7 +163,7 @@ export interface FeedComment {
   user: {
     id: string,
     username: string
-  },
+  } | null,
   date: string,
   type: 'comment'
 }
@@ -173,7 +177,7 @@ export interface FeedLike {
   user: {
     id: string,
     username: string
-  },
+  } | null,
   date: string,
   type: 'like'
 }

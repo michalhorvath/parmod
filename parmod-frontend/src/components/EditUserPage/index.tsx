@@ -99,6 +99,34 @@ const EditUserPage = ({ loggedUser, setLoggedUser }: Props) => {
       setProfilePhotoFile(file);
     }
   };
+    
+  const handleDelete = async (event: React.SyntheticEvent) => {
+    try {
+      event.preventDefault();
+
+      if(!loggedUser){
+        return;
+      }
+      
+      await UserService.remove(loggedUser.id);
+      setLoggedUser(null);
+
+      navigate('/');
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        if (e?.response?.data?.error && typeof e?.response?.data?.error === 'string') {
+          const message = e.response.data.error as string;
+          console.error(message);
+          setError(message);
+        } else {
+          setError('Unrecognized axios error');
+        }
+      } else {
+        console.error('Unknown error', e);
+        setError('Unknown error');
+      }
+    }
+  };
 
   return (
     <Container>
@@ -162,6 +190,12 @@ const EditUserPage = ({ loggedUser, setLoggedUser }: Props) => {
             <Form.Group className="mb-3">
               <Button variant="primary" type="submit">
                 Submit
+              </Button>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Delete user profile:&nbsp;</Form.Label>
+              <Button variant="danger" onClick={handleDelete}>
+                Delete
               </Button>
             </Form.Group>
           </Col>

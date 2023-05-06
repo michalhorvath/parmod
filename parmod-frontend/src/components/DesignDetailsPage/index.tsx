@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 
@@ -12,6 +12,7 @@ import GenerateNewModelModal from '../GenerateNewModelModal';
 import LikeButton from './LikeButton';
 import Photo from './Photo';
 import { toDate } from '../../utils';
+import UserLink from '../Links/UserLink';
 
 interface Props{
     loggedUser: LoggedUser
@@ -97,20 +98,21 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
     navigate(`/edit-design/${design.id}`);
   };
 
-  const isLiked = loggedUser !== null && design.likes.some(l => l.user.id === loggedUser.id);
+  const isLiked = loggedUser !== null && design.likes.some(l => l.user && l.user.id === loggedUser.id);
 
   return (
     <Container>
       <h2 className="m-2">Design {design.title}</h2>
       <div className="mb-2">
-        { loggedUser !== null && loggedUser.id === design.author.id ? 
+        { loggedUser !== null && design.author !== null 
+            && loggedUser.id === design.author.id ? 
           <Button onClick={handleEditDesignClick}>Edit design</Button> :
           null }
       </div>
       <Photo design={design}/>
       <div>
         <strong>Author:</strong>&nbsp;
-        <Link to={`/user/${design.author.id}`}>{design.author.username}</Link>
+        <UserLink user={design.author} />
       </div>
       <div><strong>Published:</strong> {toDate(design.publishedDate)}</div>
       <div>

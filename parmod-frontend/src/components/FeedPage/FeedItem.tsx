@@ -4,7 +4,8 @@ import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 
 import { Feed, LoggedUser } from '../../types';
-import feedService from '../../services/feed';
+import UserLink from '../Links/UserLink';
+import DesignLink from '../Links/DesignLink';
 
 interface Props{
     item: Feed,
@@ -13,7 +14,7 @@ interface Props{
 
 const FeedItem = ({item, loggedUser}: Props) => {
   const isFollowing = loggedUser !== null 
-        && loggedUser.following.some(u => u === item.user.id);
+        && loggedUser.following.some(u => item.user && u === item.user.id);
   const style = isFollowing ?
     {
       backgroundColor: 'yellow'
@@ -22,52 +23,36 @@ const FeedItem = ({item, loggedUser}: Props) => {
   if (item.type === 'design') {
     return (
       <ListGroup.Item key={item.id} style={style}>
-        <Link to={`/user/${item.user.id}`}>
-          {item.user.username}
-        </Link>&nbsp;
+        <UserLink user={item.user}/>&nbsp;
         published new design&nbsp;
-        <Link to={`/design/${item.design.id}`}>
-          {item.design.title}
-        </Link>
+        <DesignLink design={item.design}/>
       </ListGroup.Item>
     );
   }
   if (item.type === 'model') {
     return (
       <ListGroup.Item key={item.id} style={style}>
-        <Link to={`/user/${item.user.id}`}>
-          {item.user.username}
-        </Link>&nbsp;
+        <UserLink user={item.user}/>&nbsp;
         generated model from design&nbsp;
-        <Link to={`/design/${item.design.id}`}>
-          {item.design.title}
-        </Link>&nbsp;
+        <DesignLink design={item.design}/>
       </ListGroup.Item>
     );
   }
   if (item.type === 'comment') {
     return (
       <ListGroup.Item key={item.id} style={style}>
-        <Link to={`/user/${item.user.id}`}>
-          {item.user.username}
-        </Link>&nbsp;
+        <UserLink user={item.user}/>&nbsp;
         added comment to design&nbsp;
-        <Link to={`/design/${item.design.id}`}>
-          {item.design.title}
-        </Link>&nbsp;
+        <DesignLink design={item.design}/>
       </ListGroup.Item>
     );
   }
   if (item.type === 'like') {
     return (
       <ListGroup.Item key={item.id} style={style}>
-        <Link to={`/user/${item.user.id}`}>
-          {item.user.username}
-        </Link>&nbsp;
+        <UserLink user={item.user}/>&nbsp;
         liked design&nbsp;
-        <Link to={`/design/${item.design.id}`}>
-          {item.design.title}
-        </Link>&nbsp;
+        <DesignLink design={item.design}/>
       </ListGroup.Item>
     );
   }

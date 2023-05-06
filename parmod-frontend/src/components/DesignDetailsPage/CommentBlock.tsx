@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
 import { Comment, LoggedUser, UserRole } from '../../types';
 import designService from '../../services/designs';
+import UserLink from '../Links/UserLink';
 
 interface Props{
     comment: Comment,
@@ -25,9 +25,10 @@ const CommentBlock = ({comment, user, removeComment, designId}: Props) => {
 
   return (
     <li>
-      <Link to={`/user/${comment.user.id}`}>{comment.user.username}:</Link>&nbsp;
+      <UserLink user={comment.user}/> &nbsp;
       {comment.text}&nbsp;
-      {user && (user.role === UserRole.MODERATOR || user.role === UserRole.ADMIN
+      {user && comment.user &&
+              (user.role === UserRole.MODERATOR || user.role === UserRole.ADMIN
             || user.id === comment.user.id) ? 
         <Button variant="outline-danger" size="sm" onClick={handleRemove}>remove</Button> :
         null}

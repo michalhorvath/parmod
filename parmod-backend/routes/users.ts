@@ -18,6 +18,18 @@ router.post('/register', passwordHasher, async (req, res) => {
   res.status(201).json(savedUser);
 });
 
+router.delete('/:id', authorizator, async (req: AuthRequest, res) => {
+  const userToDelete = await UserModel.findById(req.params.id);
+  if (!req.user || !userToDelete 
+    || req.user.id.toString() !== userToDelete._id.toString()){
+    return res.status(401).json({error: 'no permission to remove user'});
+  }
+
+  await userToDelete.delete();
+
+  return res.status(204).end();
+});
+
 router.get('/:id', async (req, res) => {
   const user = await UserModel
     .findById(req.params.id)

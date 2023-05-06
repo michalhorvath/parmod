@@ -32,7 +32,7 @@ const LikeButton = ({design, addLike, removeLike, user, isLiked}: Props) => {
   const handleUnlike = async (event: React.SyntheticEvent) => {
     try {
       event.preventDefault();
-      const like = design.likes.find(l => l.user.id === user.id);
+      const like = design.likes.find(l => l.user && l.user.id === user.id);
       if (like){
         await designService.removeLike(design.id, like.id);
         removeLike(like.id);
