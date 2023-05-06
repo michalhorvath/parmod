@@ -12,6 +12,7 @@ import UserDetailsPage from './components/UserDetailsPage';
 import EditUserPage from './components/EditUserPage';
 import EditDesignPage from './components/EditDesignPage';
 import FeedPage from './components/FeedPage';
+import WelcomePage from './components/WelcomePage';
 import { LoggedUser } from './types';
 import { setToken } from './services/token';
 
@@ -30,9 +31,9 @@ const App = () => {
     
   return (
     <div>
-      <NavBar user={user}/>
+      <NavBar loggedUser={user}/>
       <Routes>
-        <Route path='/' element={<FeedPage loggedUser={user}/>} />
+        <Route path='/' element={user ? <FeedPage loggedUser={user}/> : <WelcomePage />} />
         <Route path='/login' element={<LoginPage setUser={setUser}/>} />
         <Route path='/logout' element={<LogoutPage setUser={setUser}/>} />
         <Route path='/register' element={<RegisterPage setUser={setUser}/>} />

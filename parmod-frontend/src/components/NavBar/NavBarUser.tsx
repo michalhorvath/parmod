@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom';
 import { LoggedUser } from '../../types';
 
 interface Props {
-  user : LoggedUser
+  loggedUser : LoggedUser
 }
 
-const NavBarUser = ({ user }: Props) => {
-  if (user){
+const NavBarUser = ({ loggedUser }: Props) => {
+  if (loggedUser){
     return (
       <>
         <Navbar.Collapse className="justify-content-end">
-          <Nav.Link as={Link} to={`/user/${user.id}`}>{user.username}</Nav.Link>
+          <Nav.Link as={Link} to={`/user/${loggedUser.id}`}>{loggedUser.username}</Nav.Link>
         </Navbar.Collapse>
         <Nav.Link as={Link} to="./logout">
           <Button variant="light">Logout</Button>

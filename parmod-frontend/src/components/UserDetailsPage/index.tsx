@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import userService from '../../services/users';
 import feedService from '../../services/feed';
-import { User, Design, LoggedUser } from '../../types';
+import { User, UserRole, Design, LoggedUser } from '../../types';
 import ProfilePhoto from './ProfilePhoto';
 import { toDate } from '../../utils';
 import FollowButton from './FollowButton';
@@ -116,14 +116,20 @@ const UserDetailsPage = ( { loggedUser, setLoggedUser } : Props ) => {
       <div><strong>Registered:</strong> {toDate(user.registeredDate)}</div>
       <div><strong>Email:</strong> {user.email}</div>
       <div><strong>Role:</strong> {user.role}</div>
-      <h3 className="m-2">Published designs:</h3>
-      <Row xs={1} md={4} className="g-4">
-        {publishedDesigns.map(d => (
-          <Col key={d.id}>
-            <DesignTile design={d} />
-          </Col>
-        ))}
-      </Row>
+      {user !== null && (user.role === UserRole.DESIGNER ||
+            user.role === UserRole.MODERATOR || 
+            user.role === UserRole.ADMIN) ?
+        <div>
+          <h3 className="m-2">Published designs:</h3>
+          <Row xs={1} md={4} className="g-4">
+            {publishedDesigns.map(d => (
+              <Col key={d.id}>
+                <DesignTile design={d} />
+              </Col>
+            ))}
+          </Row>
+        </div>
+        : null }
       <h3 className="m-2">Liked designs:</h3>
       <Row xs={1} md={4} className="g-4">
         {likedDesigns.map(d => (
