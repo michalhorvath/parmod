@@ -131,7 +131,7 @@ export interface FeedModel {
   design: {
     id: string,
     title: string
-  },
+  } | null,
   user: {
     id: string,
     username: string
@@ -145,7 +145,7 @@ export interface FeedDesign {
   design: {
     id: string,
     title: string
-  },
+  } | null,
   user: {
     id: string,
     username: string
@@ -159,7 +159,7 @@ export interface FeedComment {
   design: {
     id: string,
     title: string
-  },
+  } | null,
   user: {
     id: string,
     username: string
@@ -173,7 +173,7 @@ export interface FeedLike {
   design: {
     id: string,
     title: string
-  },
+  } | null,
   user: {
     id: string,
     username: string

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
-import { Link } from 'react-router-dom';
 
 import { Feed, LoggedUser } from '../../types';
 import feedService from '../../services/feed';

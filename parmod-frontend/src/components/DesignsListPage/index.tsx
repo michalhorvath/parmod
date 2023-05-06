@@ -3,13 +3,10 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
 
 import { DesignPreview } from '../../types';
 import designService from '../../services/designs';
-import { toImageSrc } from '../../utils';
-import Blank from '../../images/blank.png';
+import DesignTile from '../DesignTile';
 
 interface Props{
   type: 'best' | 'recent'
@@ -68,27 +65,7 @@ const DesignsListPage = ({ type }: Props) => {
       <Row xs={1} md={4} className="g-4">
         {filteredDesigns.map(d => (
           <Col key={d.id}>
-            <Card style={{ width: '300px' }}>
-              <Link to={`/design/${d.id}`}>
-                {d.photo ? 
-                  <Card.Img variant="top" 
-                    height="200px" width="300px"
-                    src={toImageSrc(d.photo)} /> : 
-                  <Card.Img variant="top"
-                    height="200px" width="300px"
-                    // eslint-disable-next-line
-                    src={Blank}/>}
-              </Link>
-              <Card.Body>
-                <Card.Title>
-                  <Link to={`/design/${d.id}`}>{d.title}</Link>
-                </Card.Title>
-                <Card.Text>
-                  <span>Likes: {d.likes.length}</span><br/>
-                  <span>Comments: {d.comments.length}</span>
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <DesignTile design={d} />
           </Col>
         ))}
       </Row>
