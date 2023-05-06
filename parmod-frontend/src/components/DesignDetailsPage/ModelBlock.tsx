@@ -7,14 +7,17 @@ import Spinner from 'react-bootstrap/Spinner';
 import Table from 'react-bootstrap/Table';
 import { Buffer } from 'buffer';
 
-import { Model, ModelFileStatus } from '../../types';
+import { Model, ModelFileStatus, LoggedUser } from '../../types';
 import { toDate, toTime } from '../../utils';
+import ModelService from '../../services/models';
 
 interface Props{
-    model: Model
+    model: Model,
+    loggedUser: LoggedUser,
+    reloadModels: () => void
 }
 
-const ModelBlock = ({ model }: Props) => {
+const ModelBlock = ({ model, loggedUser, reloadModels }: Props) => {
 
   const download = () => {
     const buffer = Buffer.from(model.modelFile.data.data);
@@ -29,6 +32,19 @@ const ModelBlock = ({ model }: Props) => {
     a.target = '_self';
     a.click();
     window.URL.revokeObjectURL(url);
+  };
+
+  const handleDelete = async (event: React.SyntheticEvent) => {
+    try {
+      event.preventDefault();
+      if(!loggedUser){
+        return;
+      }
+      await ModelService.remove(model.id);
+      reloadModels();
+    } catch (e: unknown) {
+      console.error('Unknown error', e);
+    }
   };
   
   const modelDetailsPopover = (
@@ -57,6 +73,13 @@ const ModelBlock = ({ model }: Props) => {
 
   return (
     <li>{model.id} ({toTime(model.generatedDate)} - {toDate(model.generatedDate)})&nbsp;
+      <Button 
+        variant="outline-danger"
+        size="sm" 
+        onClick={handleDelete}>
+        remove
+      </Button>
+      &nbsp;
       <Button 
         variant={model.modelFile.status === ModelFileStatus.FAILED ?
           'outline-danger' : 'outline-primary'}

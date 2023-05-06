@@ -45,6 +45,18 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
   return res.status(201).json(savedModel);
 });
 
+router.delete('/:id', authorizator, async (req: AuthRequest, res) => {
+  const modelToDelete = await ModelModel.findById(req.params.id);
+  if (!req.user || !modelToDelete 
+    || req.user.id.toString() !== modelToDelete.user.toString()){
+    return res.status(401).json({error: 'no permission to remove model'});
+  }
+
+  await modelToDelete.delete();
+
+  return res.status(204).end();
+});
+
 router.get('/:id', async (req, res) => {
   const model = await ModelModel.findById(req.params.id)
     .populate('design')

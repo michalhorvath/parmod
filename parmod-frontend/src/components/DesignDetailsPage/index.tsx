@@ -130,6 +130,7 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
         user={loggedUser} removeLike={removeLike} isLiked={isLiked}/>
       <ModelSection models={models} 
         setShowGenerateModel={setShowGenerateModel}
+        loggedUser={loggedUser}
         reloadModels={() => setTrigger(trigger+1)} />
       <CommentSection design={design} addNewComment={addNewComment} 
         user={loggedUser} removeComment={removeComment} />

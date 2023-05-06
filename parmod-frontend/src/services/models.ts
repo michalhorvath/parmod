@@ -31,6 +31,14 @@ const create = async (object: ModelFormValues) => {
   return data;
 };
 
+const remove = async (id: string) => {
+  const { data } = await axios.delete<Model>(
+    `${apiV1BaseUrl}/models/${id}`,
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 export default {
-  get, create, getAll
+  get, create, getAll, remove
 };
