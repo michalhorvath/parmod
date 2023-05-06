@@ -31,6 +31,18 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
   return res.status(201).json(savedDesign);
 });
 
+router.delete('/:id', authorizator, async (req: AuthRequest, res) => {
+  const designToDelete = await DesignModel.findById(req.params.id);
+  if (!req.user || !designToDelete 
+    || req.user.id.toString() !== designToDelete.author.toString()){
+    return res.status(401).json({error: 'no permission to remove design'});
+  }
+
+  await designToDelete.delete();
+
+  return res.status(204).end();
+});
+
 router.put('/:id', authorizator, async (req: AuthRequest, res) => {
   const design = await DesignModel.findById(req.params.id);
   if (!req.user || !design || req.user.id.toString() !== design.author.toString()){

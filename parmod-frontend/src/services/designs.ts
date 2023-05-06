@@ -40,6 +40,14 @@ const update = async (id: string, object: DesignFormValues) => {
   return data;
 };
 
+const remove = async (id: string) => {
+  const { data } = await axios.delete<Design>(
+    `${apiV1BaseUrl}/designs/${id}`,
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 const addComment = async (designId: string, comment: CommentFormValues) => {
   const { data } = await axios.post<Comment>(
     `${apiV1BaseUrl}/designs/${designId}/comments`,
@@ -75,5 +83,5 @@ const removeLike = async (designId: string, likeId: string) => {
 };
 
 export default {
-  get, create, update, getAll, addComment, removeComment, addLike, removeLike
+  get, create, update, getAll, addComment, removeComment, addLike, removeLike, remove
 };

@@ -13,6 +13,7 @@ import LikeButton from './LikeButton';
 import Photo from './Photo';
 import { toDate } from '../../utils';
 import UserLink from '../Links/UserLink';
+import DesignService from '../../services/designs';
 
 interface Props{
     loggedUser: LoggedUser
@@ -98,6 +99,19 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
     navigate(`/edit-design/${design.id}`);
   };
 
+  const handleDelete = async (event: React.SyntheticEvent) => {
+    try {
+      event.preventDefault();
+      if(!loggedUser){
+        return;
+      }
+      await DesignService.remove(design.id);
+      navigate('/');
+    } catch (e: unknown) {
+      console.error('Unknown error', e);
+    }
+  };
+
   const isLiked = loggedUser !== null && design.likes.some(l => l.user && l.user.id === loggedUser.id);
 
   return (
@@ -107,6 +121,10 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
         { loggedUser !== null && design.author !== null 
             && loggedUser.id === design.author.id ? 
           <Button onClick={handleEditDesignClick}>Edit design</Button> :
+          null }
+        { loggedUser !== null && design.author !== null 
+            && loggedUser.id === design.author.id ? 
+          <Button variant="outline-danger" onClick={handleDelete}>Remove design</Button> :
           null }
       </div>
       <Photo design={design}/>
