@@ -88,7 +88,7 @@ export const toChangedRoleAdmin = (object: unknown): UserRole => {
   ){
     throw error;
   }
-  const newRole: UserRole = parseUserRoleAdmin(object.newRole)
+  const newRole: UserRole = parseUserRoleAdmin(object.newRole);
   return newRole;
 };
 

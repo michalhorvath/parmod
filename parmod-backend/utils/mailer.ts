@@ -9,13 +9,13 @@ const transpoter = nodemailer.createTransport({
   }
 });
 
-const send = (to: string, subject: string, text: string) => {
+const send = (to: string[], subject: string, text: string) => {
   transpoter.sendMail({
     from: config.MAILER_USER,
     to, subject, text
   }, (e) => console.log(e));
 };
 
-exports.default = {
+export default {
   send
 };

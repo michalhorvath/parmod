@@ -3,10 +3,12 @@ const router = express.Router();
 
 import DesignModel from '../models/design';
 import FeedModel from '../models/feed';
+import UserModel from '../models/user';
 import { toNewDesign, toUpdateDesign, 
   toNewComment, toNewLike } from '../utils/validators';
 import authorizator from '../middleware/authorizator';
 import { AuthRequest, UserRole, FeedType } from '../types';
+import Mailer from '../utils/mailer';
 
 router.get('/', async (req, res) => {
   const designs = await DesignModel
@@ -28,6 +30,13 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
     date: new Date(),
     type: FeedType.DESIGN
   });
+  const mailto: string[] =
+    (await UserModel.find({following: req.user.id}))
+      .map(u => u.email);
+  Mailer.send(
+    mailto, 
+    `${req.user.username} just uploaded new design ${savedDesign.title}`, 
+    'visit the website to see more');
   return res.status(201).json(savedDesign);
 });
 
