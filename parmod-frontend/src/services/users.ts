@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User, UserFormValues, UserEditFormValues } from '../types';
+import { User, UserRole, UserFormValues, UserEditFormValues } from '../types';
 
 import { apiV1BaseUrl } from '../constants';
 
@@ -56,6 +56,15 @@ const unfollow = async (id: string) => {
   return data;
 };
 
+const setRole = async (id: string, newRole: UserRole) => {
+  const { data } = await axios.post<User>(
+    `${apiV1BaseUrl}/users/${id}/setrole`,
+    { newRole},
+    { headers: { Authorization: getToken() } }
+  );
+  return data;
+};
+
 export default {
-  get, create, update, follow, unfollow, remove
+  get, create, update, follow, unfollow, remove, setRole
 };

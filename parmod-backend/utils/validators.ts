@@ -43,6 +43,14 @@ const parseUserRole = (s: unknown): UserRole => {
   return s;
 };
 
+const parseUserRoleAdmin = (s: unknown): UserRole => {
+  if (!s || !isString(s) || !isUserRole(s) 
+    || s === UserRole.ADMIN) {
+    throw error;
+  }
+  return s;
+};
+
 export const toNewUser = (object: unknown): NewUser => {
   if (!object || typeof object !== 'object'){
     throw error;
@@ -69,6 +77,19 @@ export const toNewUser = (object: unknown): NewUser => {
     newUser.profilePhoto = parseObjectId(object.profilePhoto);
   }
   return newUser;
+};
+
+export const toChangedRoleAdmin = (object: unknown): UserRole => {
+  if (!object || typeof object !== 'object'){
+    throw error;
+  }
+  if (
+    !('newRole' in object)
+  ){
+    throw error;
+  }
+  const newRole: UserRole = parseUserRoleAdmin(object.newRole)
+  return newRole;
 };
 
 export const toUpdateUser = (object: unknown): UpdateUser => {

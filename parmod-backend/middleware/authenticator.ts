@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import UserModel from '../models/user';
-import { User, AuthRequest } from '../types';
+import { User, UserRole, AuthRequest } from '../types';
 import config from '../utils/config';
 
 const authenticator = async (req: AuthRequest, res: Response, 
@@ -35,6 +35,12 @@ const authenticator = async (req: AuthRequest, res: Response,
 
   if (!req.user || !req.token) {
     const error = new Error('Invalid username or password.');
+    error.name = 'AuthenticationError';
+    throw error;
+  }
+
+  if (req.user.role === UserRole.BANNED) {
+    const error = new Error('User is banned.');
     error.name = 'AuthenticationError';
     throw error;
   }

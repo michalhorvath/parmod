@@ -7,7 +7,7 @@ import ModelFileModel from '../models/modelFile';
 import FeedModel from '../models/feed';
 import { toNewModel } from '../utils/validators';
 import authorizator from '../middleware/authorizator';
-import { AuthRequest, Design, FeedType } from '../types';
+import { AuthRequest, Design, FeedType, UserRole } from '../types';
 import openscad from '../utils/openscad';
 
 router.get('/', async (req, res) => {
@@ -48,7 +48,9 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
 router.delete('/:id', authorizator, async (req: AuthRequest, res) => {
   const modelToDelete = await ModelModel.findById(req.params.id);
   if (!req.user || !modelToDelete 
-    || req.user.id.toString() !== modelToDelete.user.toString()){
+    || (req.user.id.toString() !== modelToDelete.user.toString()
+    && req.user.role !== UserRole.MODERATOR 
+    && req.user.role !== UserRole.ADMIN)){
     return res.status(401).json({error: 'no permission to remove model'});
   }
 

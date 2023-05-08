@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import designService from '../../services/designs';
 import modelService from '../../services/models';
-import { Design, Model, Comment, Like, LoggedUser } from '../../types';
+import { Design, Model, Comment, Like, LoggedUser, UserRole } from '../../types';
 import ModelSection from './ModelSection';
 import CommentSection from './CommentSection';
 import GenerateNewModelModal from '../GenerateNewModelModal';
@@ -122,8 +122,10 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
             && loggedUser.id === design.author.id ? 
           <Button onClick={handleEditDesignClick}>Edit design</Button> :
           null }
-        { loggedUser !== null && design.author !== null 
-            && loggedUser.id === design.author.id ? 
+        { (loggedUser !== null && design.author !== null)
+            && (loggedUser.id === design.author.id ||
+                loggedUser.role === UserRole.MODERATOR ||
+                loggedUser.role === UserRole.ADMIN) ? 
           <Button variant="outline-danger" onClick={handleDelete}>Remove design</Button> :
           null }
       </div>

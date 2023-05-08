@@ -34,7 +34,9 @@ router.post('/', authorizator, async (req: AuthRequest, res) => {
 router.delete('/:id', authorizator, async (req: AuthRequest, res) => {
   const designToDelete = await DesignModel.findById(req.params.id);
   if (!req.user || !designToDelete 
-    || req.user.id.toString() !== designToDelete.author.toString()){
+    || (req.user.id.toString() !== designToDelete.author.toString()
+    && req.user.role !== UserRole.MODERATOR 
+    && req.user.role !== UserRole.ADMIN)){
     return res.status(401).json({error: 'no permission to remove design'});
   }
 

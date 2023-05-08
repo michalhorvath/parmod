@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import UserModel from '../models/user';
-import { AuthRequest } from '../types';
+import { UserRole, AuthRequest } from '../types';
 import config from '../utils/config';
 
 const authorizator = async (req: AuthRequest, res: Response, 
@@ -20,6 +20,12 @@ const authorizator = async (req: AuthRequest, res: Response,
   if (!req.token || !req.user) {
     const error = new Error('Token missing or invalid.');
     error.name = 'AuthorizationError';
+    throw error;
+  }
+
+  if (req.user.role === UserRole.BANNED) {
+    const error = new Error('User is banned.');
+    error.name = 'AuthenticationError';
     throw error;
   }
 
