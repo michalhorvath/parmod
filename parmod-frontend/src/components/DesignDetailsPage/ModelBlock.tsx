@@ -14,10 +14,11 @@ import ModelService from '../../services/models';
 interface Props{
     model: Model,
     loggedUser: LoggedUser,
-    reloadModels: () => void
+    reloadModels: () => void,
+    viewModel: (model: Model) => void
 }
 
-const ModelBlock = ({ model, loggedUser, reloadModels }: Props) => {
+const ModelBlock = ({ model, loggedUser, reloadModels, viewModel }: Props) => {
 
   const download = () => {
     const buffer = Buffer.from(model.modelFile.data.data);
@@ -102,6 +103,14 @@ const ModelBlock = ({ model, loggedUser, reloadModels }: Props) => {
         case ModelFileStatus.FAILED:
           return 'failed';
         }})()}
+      </Button>
+      &nbsp;
+      <Button 
+        variant="outline-info"
+        disabled={model.modelFile.status !== ModelFileStatus.OK}
+        size="sm" 
+        onClick={() => {viewModel(model);}}>
+        View
       </Button>
       <OverlayTrigger trigger="click" placement="right" overlay={modelDetailsPopover}>
         <Button variant="link" size="sm">details</Button>

@@ -9,6 +9,7 @@ import { Design, Model, Comment, Like, LoggedUser, UserRole } from '../../types'
 import ModelSection from './ModelSection';
 import CommentSection from './CommentSection';
 import GenerateNewModelModal from '../GenerateNewModelModal';
+import STLViewerModal from '../STLViewerModal';
 import LikeButton from './LikeButton';
 import Photo from './Photo';
 import { toDate } from '../../utils';
@@ -25,6 +26,8 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
   const [design, setDesign] = useState<Design>();
   const [showGenerateModel, setShowGenerateModel] = useState<boolean>(false);
   const [models, setModels] = useState<Model[]>([]);
+  const [showSTLViewerModal, setShowSTLVieverModal] = useState<boolean>(false);
+  const [STLViewerModel, setSTLViewerModel] = useState<Model | null>(null);
   const [trigger, setTrigger] = useState<number>(0);
 
   const navigate = useNavigate();
@@ -112,6 +115,11 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
     }
   };
 
+  const viewModel = (model: Model) => {
+    setSTLViewerModel(model);
+    setShowSTLVieverModal(true);
+  };
+
   const isLiked = loggedUser !== null && design.likes.some(l => l.user && l.user.id === loggedUser.id);
 
   return (
@@ -151,11 +159,14 @@ const DesignDetailsPage = ({loggedUser}: Props) => {
       <ModelSection models={models} 
         setShowGenerateModel={setShowGenerateModel}
         loggedUser={loggedUser}
+        viewModel={viewModel}
         reloadModels={() => setTrigger(trigger+1)} />
       <CommentSection design={design} addNewComment={addNewComment} 
         user={loggedUser} removeComment={removeComment} />
       <GenerateNewModelModal design={design} show={showGenerateModel}
         onHide={() => setShowGenerateModel(false)}/>
+      <STLViewerModal model={STLViewerModel} show={showSTLViewerModal}
+        onHide={() => setShowSTLVieverModal(false)}/>
     </Container>
   );
 };

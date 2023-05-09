@@ -9,10 +9,12 @@ interface Props{
     models: Model[],
     setShowGenerateModel: React.Dispatch<React.SetStateAction<boolean>>,
     reloadModels: () => void,
-    loggedUser: LoggedUser
+    loggedUser: LoggedUser,
+    viewModel: (model: Model) => void
 }
 
-const ModelSection = ({models, setShowGenerateModel, reloadModels, loggedUser}: Props) => {
+const ModelSection = ({models, setShowGenerateModel, reloadModels, 
+  loggedUser, viewModel}: Props) => {
   const [isRendering, setIsRendering] = useState<boolean>(false);
 
   if (models.some(m => m.modelFile.status === ModelFileStatus.RENDERING) 
@@ -32,7 +34,8 @@ const ModelSection = ({models, setShowGenerateModel, reloadModels, loggedUser}: 
       </Button>
       <ul>
         {models.map((m, i) => (<ModelBlock key={i} model={m}
-          loggedUser={loggedUser} reloadModels={reloadModels}/>))}
+          loggedUser={loggedUser} reloadModels={reloadModels}
+          viewModel={viewModel}/>))}
       </ul>
     </Container>
   );
